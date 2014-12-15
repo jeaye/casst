@@ -87,7 +87,7 @@ namespace casst
           { }
 
           template <typename Strategy, typename... Args>
-          blob<steps::with_replication> with_replication(Args &&... args)
+          blob<steps::with_replication> with_replication(Args &&...args)
           {
             static_assert(std::is_same<Strategy, simple_strategy>::value ||
                           std::is_same<Strategy, network_topology_strategy>::value,
@@ -97,6 +97,13 @@ namespace casst
             oss << "CREATE KEYSPACE " << policy_ << name_ << " ";
             return { std::move(oss), Strategy{}, std::forward<Args>(args)... };
           }
+
+          blob<steps::with_replication> with_replication_simple(replication_factor const rf)
+          { return with_replication<simple_strategy>(rf); }
+
+          template <typename... DBs>
+          blob<steps::with_replication> with_replication_network_topology(DBs &&...dbs)
+          { return with_replication<network_topology_strategy>(std::forward<DBs>(dbs)...); }
 
         private:
           string const name_, policy_;

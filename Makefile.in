@@ -1,6 +1,6 @@
 # Sources
 OUT_DIR = bin/
-SOURCES = test/src/main.cpp
+SOURCES = test/src/create/keyspace.cpp
 OBJECTS = ${SOURCES:.cpp=.cpp.o}
 TEST_OBJECTS = $(SOURCES:.cpp=.test)
 

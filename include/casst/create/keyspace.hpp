@@ -11,6 +11,9 @@ namespace casst
     auto keyspace(string const &name)
     { return detail::blob<detail::steps::base>{ name, Policy{} }; }
 
+    auto keyspace_if_not_exists(string const &name)
+    { return detail::blob<detail::steps::base>{ name, if_not_exists{} }; }
+
     auto replication_factor(std::size_t const factor)
     { return detail::replication_factor{ factor }; }
 
