@@ -1,6 +1,6 @@
 # Sources
 OUT_DIR = bin/
-SOURCES = 
+SOURCES = test/src/main.cpp
 OBJECTS = ${SOURCES:.cpp=.cpp.o}
 TEST_OBJECTS = $(SOURCES:.cpp=.test)
 
@@ -14,7 +14,7 @@ CXX_WARN_FLAGS = -Wall -Wextra -Werror -pedantic
 CXX_NO_WARN_FLAGS =
 CXX_DEBUG_FLAGS = 
 CXX_OPTIM_FLAGS = -ggdb
-CXX_INCLUDE_FLAGS = -Itest/include -Iinclude -Ilib/jest/include
+CXX_INCLUDE_FLAGS = -Itest/include -Iinclude -Ilib/jest/include -Ilib/jeayeson/include
 CXX_PLATFORM_FLAGS = %CXX_PLATFORM_FLAGS%
 CXX_FLAGS += -std=c++1y \
 						 ${CXX_PLATFORM_FLAGS} \
@@ -25,7 +25,7 @@ CXX_FLAGS += -std=c++1y \
 						 ${CXX_OPTIM_FLAGS}
 
 LD_PLATFORM_LIBS = %LD_PLATFORM_LIBS%
-LD_LIBS = ${LD_PLATFORM_LIBS}
+LD_LIBS += ${LD_PLATFORM_LIBS}
 
 PROJECT = %PROJECT%
 
