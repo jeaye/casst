@@ -1,3 +1,6 @@
 [submodule "lib/jest"]
 	path = lib/jest
 	url = https://github.com/jeaye/jest.git
+[submodule "lib/jeayeson"]
+	path = lib/jeayeson
+	url = https://github.com/jeaye/jeayeson.git
