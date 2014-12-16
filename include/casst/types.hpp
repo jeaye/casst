@@ -7,6 +7,7 @@
 namespace casst
 {
   using data_type_t = std::pair<std::string, std::string>;
+  using data_func_t = data_type_t (*)(std::string const&);
 
   inline data_type_t ascii(std::string const &name)
   { return { name, "ascii" }; }
@@ -20,13 +21,16 @@ namespace casst
   inline data_type_t inet(std::string const &name)
   { return { name, "inet" }; }
 
+  template <data_func_t T>
   inline data_type_t list(std::string const &name)
-  { return { name, "list" }; }
+  { return { name, "list<" + T(name).second + ">" }; }
+  template <data_func_t K, data_func_t T>
   inline data_type_t map(std::string const &name)
-  { return { name, "map" }; }
+  { return { name, "map<" + K(name).second + ", " + T(name).second + ">" }; }
+  template <data_func_t T>
   inline data_type_t set(std::string const &name)
-  { return { name, "set" }; }
-  inline data_type_t tuple(std::string const &name)
+  { return { name, "set<" + T(name).second + ">" }; }
+  inline data_type_t tuple(std::string const &name) /* TODO: frozen tuple */
   { return { name, "tuple" }; }
 
   inline data_type_t counter(std::string const &name)

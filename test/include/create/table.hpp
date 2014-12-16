@@ -47,9 +47,6 @@ namespace jest
     test(&casst::varchar);
     test(&casst::blob);
     test(&casst::inet);
-    test(&casst::list);
-    test(&casst::map);
-    test(&casst::set);
     test(&casst::tuple);
     test(&casst::counter);
     test(&casst::timestamp);
@@ -65,7 +62,27 @@ namespace jest
   }
 
   template <> template <>
-  void casst::create_table_group::test<3>() /* composite */
+  void casst::create_table_group::test<3>() /* generic types */
+  {
+    auto const test([](auto const func, std::string const &type)
+    {
+      auto const pair(func("name"));
+      std::string const str{ casst::create::table_if_not_exists("table").
+                              columns(func("name")).
+                                primary("name").to_string() };
+      expect_equal(str, "CREATE TABLE table ( name " + type + ", PRIMARY KEY ( " + pair.first + " ) )");
+    });
+
+    test(&casst::set<casst::text>, "set<text>");
+    test(&casst::set<casst::_int>, "set<int>");
+    test(&casst::list<casst::text>, "list<text>");
+    test(&casst::list<casst::_float>, "list<float>");
+    test(&casst::map<casst::text, casst::text>, "map<text, text>");
+    test(&casst::map<casst::timeuuid, casst::bigint>, "map<timeuuid, bigint>");
+  }
+
+  template <> template <>
+  void casst::create_table_group::test<4>() /* composite */
   {
     std::string const str{ casst::create::table_if_not_exists("table").
                             columns(casst::text("name")).
@@ -74,7 +91,7 @@ namespace jest
   }
 
   template <> template <>
-  void casst::create_table_group::test<4>() /* composite and more */
+  void casst::create_table_group::test<5>() /* composite and more */
   {
     std::string const str{ casst::create::table_if_not_exists("table").
                             columns(casst::text("name")).
