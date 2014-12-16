@@ -34,12 +34,7 @@ namespace casst
             : oss_{ std::move(oss) }
           {
             oss_ << "PRIMARY KEY ( " << first << ", ";
-            int const _[]{ (oss_ << args << ", ", 0)... };
-            static_cast<void>(_);
-
-            /* Overwrite that last, pesky comma. */
-            oss_.seekp(-2, std::ios_base::end);
-            oss_ << " ) )";
+            write(std::forward<Args>(args)...);
           }
 
           template <std::size_t N, typename... Args>
@@ -50,22 +45,28 @@ namespace casst
             for(std::size_t i{}; i < N; ++i)
             { oss_ << comp.names[i] << ", "; }
 
-            /* Overwrite that last, pesky comma. */
             oss_.seekp(-2, std::ios_base::end);
-            oss_ << " ) ";
+            oss_ << " )";
 
-            int const _[]{ (oss_ << args << ", ", 0)... };
-            static_cast<void>(_);
-
-            /* Overwrite that last, pesky comma. */
-            oss_.seekp(-2, std::ios_base::end);
-            oss_ << ") )";
+            if(sizeof...(Args))
+            { oss_ << ", "; }
+            write(std::forward<Args>(args)...);
           }
 
           std::string to_string() const
           { return oss_.str(); }
 
         private:
+          template <typename... Args>
+          void write(Args &&...args)
+          {
+            int const _[]{ (oss_ << args << ", ", 0)... };
+            static_cast<void>(_);
+
+            oss_.seekp(-2, std::ios_base::end);
+            oss_ << " ) )";
+          }
+
           std::ostringstream oss_;
       };
 

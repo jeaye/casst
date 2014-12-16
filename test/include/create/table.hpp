@@ -72,4 +72,13 @@ namespace jest
                               primary(casst::create::composite("name", "age")).to_string() };
     expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( ( name, age ) )");
   }
+
+  template <> template <>
+  void casst::create_table_group::test<4>() /* composite and more */
+  {
+    std::string const str{ casst::create::table_if_not_exists("table").
+                            columns(casst::text("name")).
+                              primary(casst::create::composite("name", "age"), "location").to_string() };
+    expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( ( name, age ), location ) )");
+  }
 }
