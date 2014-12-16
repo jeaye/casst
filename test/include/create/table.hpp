@@ -72,23 +72,24 @@ namespace jest
       expect_equal(str, "CREATE TABLE table ( name " + type + ", PRIMARY KEY ( " + pair.first + " ) )");
     });
 
-    test(&casst::set<casst::text>, "set<text>");
-    test(&casst::set<casst::_int>, "set<int>");
-    test(&casst::list<casst::text>, "list<text>");
-    test(&casst::list<casst::_float>, "list<float>");
-    test(&casst::map<casst::text, casst::text>, "map<text, text>");
-    test(&casst::map<casst::timeuuid, casst::bigint>, "map<timeuuid, bigint>");
+    test(&casst::set<casst::text>, "set< text >");
+    test(&casst::set<casst::_int>, "set< int >");
+    test(&casst::list<casst::text>, "list< text >");
+    test(&casst::list<casst::_float>, "list< float >");
+    test(&casst::map<casst::text, casst::text>, "map< text, text >");
+    test(&casst::map<casst::timeuuid, casst::bigint>, "map< timeuuid, bigint >");
 
-    test(&casst::tuple<casst::_float>, "tuple<float>");
-    test(&casst::tuple<casst::_float, casst::blob, casst::set<casst::text>>, "tuple<float, blob, set<text>>");
+    test(&casst::tuple<casst::_float>, "tuple< float >");
+    test(&casst::tuple<casst::_float, casst::blob, casst::set<casst::text>>,
+         "tuple< float, blob, set< text > >");
 
-    test(&casst::frozen<casst::text>, "frozen<text>");
-    test(&casst::frozen<casst::tuple<casst::inet>>, "frozen<tuple<inet>>");
-    test(&casst::frozen<casst::tuple<casst::blob, casst::inet>>, "frozen<tuple<blob, inet>>");
+    test(&casst::frozen<casst::text>, "frozen< text >");
+    test(&casst::frozen<casst::tuple<casst::inet>>, "frozen< tuple< inet > >");
+    test(&casst::frozen<casst::tuple<casst::blob, casst::inet>>, "frozen< tuple< blob, inet > >");
     test(&casst::frozen<casst::tuple<casst::varint, casst::blob, casst::inet>>,
-         "frozen<tuple<varint, blob, inet>>");
+         "frozen< tuple< varint, blob, inet > >");
     test(&casst::frozen<casst::tuple<casst::text, casst::tuple<casst::_int, casst::uuid>>>,
-         "frozen<tuple<text, tuple<int, uuid>>>");
+         "frozen< tuple< text, tuple< int, uuid > > >");
   }
 
   template <> template <>

@@ -23,26 +23,28 @@ namespace casst
 
   template <data_func_t T>
   data_type_t list(std::string const &name)
-  { return { name, "list<" + T(name).second + ">" }; }
+  { return { name, "list< " + T(name).second + " >" }; }
   template <data_func_t K, data_func_t T>
   data_type_t map(std::string const &name)
-  { return { name, "map<" + K(name).second + ", " + T(name).second + ">" }; }
+  { return { name, "map< " + K(name).second + ", " + T(name).second + " >" }; }
   template <data_func_t T>
   data_type_t set(std::string const &name)
-  { return { name, "set<" + T(name).second + ">" }; }
+  { return { name, "set< " + T(name).second + " >" }; }
   template <data_func_t... Ts>
   data_type_t tuple(std::string const &name)
   {
-    std::ostringstream types{ "<" };
+    static_assert(sizeof...(Ts), "tuples cannot be zero-sized");
+
+    std::ostringstream types;
     int const _[]{ (types << Ts(name).second << ", ", 0)... };
     static_cast<void>(_);
     types.seekp(-2, std::ios_base::end);
-    types << ">";
-    return { name, "tuple" + types.str() };
+    types << " >";
+    return { name, "tuple< " + types.str() };
   }
   template <data_func_t T>
   data_type_t frozen(std::string const &name)
-  { return { name, "tuple<" + T(name).second + ">" }; }
+  { return { name, "frozen< " + T(name).second + " >" }; }
 
   inline data_type_t counter(std::string const &name)
   { return { name, "counter" }; }
