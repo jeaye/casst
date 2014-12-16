@@ -26,7 +26,7 @@ namespace jest
   {
     std::string const str{ casst::create::table_if_not_exists("table").
                             columns(casst::text("name")).
-                              primary("name").to_string() };
+                              primary_key("name").to_string() };
     expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( name ) )");
   }
 
@@ -38,7 +38,7 @@ namespace jest
       auto const pair(func("name"));
       std::string const str{ casst::create::table_if_not_exists("table").
                               columns(func("name")).
-                                primary("name").to_string() };
+                                primary_key("name").to_string() };
       expect_equal(str, "CREATE TABLE table ( name " + pair.second + ", PRIMARY KEY ( " + pair.first + " ) )");
     });
 
@@ -69,7 +69,7 @@ namespace jest
       auto const pair(func("name"));
       std::string const str{ casst::create::table_if_not_exists("table").
                               columns(func("name")).
-                                primary("name").to_string() };
+                                primary_key("name").to_string() };
       expect_equal(str, "CREATE TABLE table ( name " + type + ", PRIMARY KEY ( " + pair.first + " ) )");
     });
 
@@ -86,7 +86,7 @@ namespace jest
   {
     std::string const str{ casst::create::table_if_not_exists("table").
                             columns(casst::text("name")).
-                              primary(casst::create::composite("name", "age")).to_string() };
+                              primary_key(casst::create::composite("name", "age")).to_string() };
     expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( ( name, age ) )");
   }
 
@@ -95,7 +95,7 @@ namespace jest
   {
     std::string const str{ casst::create::table_if_not_exists("table").
                             columns(casst::text("name")).
-                              primary(casst::create::composite("name", "age"), "location").to_string() };
+                              primary_key(casst::create::composite("name", "age"), "location").to_string() };
     expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( ( name, age ), location ) )");
   }
 }

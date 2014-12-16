@@ -15,18 +15,19 @@ namespace casst
       struct composite
       { std::string names[N]; };
 
+      /* TODO: table properties. */
       enum class steps
       {
         base,
         columns,
-        primary
+        primary_key
       };
 
       template <steps S>
       class table;
 
       template <>
-      class table<steps::primary>
+      class table<steps::primary_key>
       {
         public:
           template <typename... Args>
@@ -83,10 +84,10 @@ namespace casst
           }
 
           template <typename... Args>
-          table<steps::primary> primary(Args &&...args)
+          table<steps::primary_key> primary_key(Args &&...args)
           { return { std::move(oss_), std::forward<Args>(args)... }; }
           template <std::size_t N, typename... Args>
-          table<steps::primary> primary(composite<N> const &comp, Args &&...args)
+          table<steps::primary_key> primary_key(composite<N> const &comp, Args &&...args)
           { return { std::move(oss_), comp, std::forward<Args>(args)... }; }
 
         private:
