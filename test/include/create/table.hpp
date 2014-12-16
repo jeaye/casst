@@ -47,7 +47,6 @@ namespace jest
     test(&casst::varchar);
     test(&casst::blob);
     test(&casst::inet);
-    test(&casst::tuple);
     test(&casst::counter);
     test(&casst::timestamp);
     test(&casst::timeuuid);
@@ -79,6 +78,17 @@ namespace jest
     test(&casst::list<casst::_float>, "list<float>");
     test(&casst::map<casst::text, casst::text>, "map<text, text>");
     test(&casst::map<casst::timeuuid, casst::bigint>, "map<timeuuid, bigint>");
+
+    test(&casst::tuple<casst::_float>, "tuple<float>");
+    test(&casst::tuple<casst::_float, casst::blob, casst::set<casst::text>>, "tuple<float, blob, set<text>>");
+
+    test(&casst::frozen<casst::text>, "frozen<text>");
+    test(&casst::frozen<casst::tuple<casst::inet>>, "frozen<tuple<inet>>");
+    test(&casst::frozen<casst::tuple<casst::blob, casst::inet>>, "frozen<tuple<blob, inet>>");
+    test(&casst::frozen<casst::tuple<casst::varint, casst::blob, casst::inet>>,
+         "frozen<tuple<varint, blob, inet>>");
+    test(&casst::frozen<casst::tuple<casst::text, casst::tuple<casst::_int, casst::uuid>>>,
+         "frozen<tuple<text, tuple<int, uuid>>>");
   }
 
   template <> template <>

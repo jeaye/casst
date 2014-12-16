@@ -22,16 +22,27 @@ namespace casst
   { return { name, "inet" }; }
 
   template <data_func_t T>
-  inline data_type_t list(std::string const &name)
+  data_type_t list(std::string const &name)
   { return { name, "list<" + T(name).second + ">" }; }
   template <data_func_t K, data_func_t T>
-  inline data_type_t map(std::string const &name)
+  data_type_t map(std::string const &name)
   { return { name, "map<" + K(name).second + ", " + T(name).second + ">" }; }
   template <data_func_t T>
-  inline data_type_t set(std::string const &name)
+  data_type_t set(std::string const &name)
   { return { name, "set<" + T(name).second + ">" }; }
-  inline data_type_t tuple(std::string const &name) /* TODO: frozen tuple */
-  { return { name, "tuple" }; }
+  template <data_func_t... Ts>
+  data_type_t tuple(std::string const &name)
+  {
+    std::ostringstream types{ "<" };
+    int const _[]{ (types << Ts(name).second << ", ", 0)... };
+    static_cast<void>(_);
+    types.seekp(-2, std::ios_base::end);
+    types << ">";
+    return { name, "tuple" + types.str() };
+  }
+  template <data_func_t T>
+  data_type_t frozen(std::string const &name)
+  { return { name, "tuple<" + T(name).second + ">" }; }
 
   inline data_type_t counter(std::string const &name)
   { return { name, "counter" }; }
