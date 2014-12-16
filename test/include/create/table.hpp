@@ -25,8 +25,9 @@ namespace jest
   void casst::create_table_group::test<1>() /* column */
   {
     std::string const str{ casst::create::table_if_not_exists("table").
-                            columns(casst::text("name")).to_string() };
-    expect_equal(str, "CREATE TABLE table ( name text ) ");
+                            columns(casst::text("name")).
+                              primary("name").to_string() };
+    expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( name ) )");
   }
 
   template <> template <>
@@ -36,8 +37,9 @@ namespace jest
     {
       auto const pair(func("name"));
       std::string const str{ casst::create::table_if_not_exists("table").
-                              columns(func("name")).to_string() };
-      expect_equal(str, "CREATE TABLE table ( name " + pair.second + " ) ");
+                              columns(func("name")).
+                                primary("name").to_string() };
+      expect_equal(str, "CREATE TABLE table ( name " + pair.second + ", PRIMARY KEY ( " + pair.first + " ) )");
     });
 
     test(&casst::ascii);
@@ -60,5 +62,14 @@ namespace jest
     test(&casst::_float);
     test(&casst::_int);
     test(&casst::varint);
+  }
+
+  template <> template <>
+  void casst::create_table_group::test<3>() /* composite */
+  {
+    std::string const str{ casst::create::table_if_not_exists("table").
+                            columns(casst::text("name")).
+                              primary(casst::create::composite("name", "age")).to_string() };
+    expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( ( name, age ) )");
   }
 }

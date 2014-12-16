@@ -12,7 +12,11 @@ namespace casst
     auto table(std::string const &name)
     { return detail::table<detail::steps::base>{ name, Policy{} }; }
 
-    auto table_if_not_exists(std::string const &name)
+    inline auto table_if_not_exists(std::string const &name)
     { return detail::table<detail::steps::base>{ name, if_not_exists{} }; }
+
+    template <typename... Args>
+    auto composite(Args &&...args)
+    { return detail::composite<sizeof...(Args)>{ { std::forward<Args>(args)... } }; }
   }
 }
