@@ -1,7 +1,7 @@
 #pragma once
 
 #include <jeayeson/jeayeson.hpp>
-#include <casst/types.hpp>
+#include <casst/datatypes.hpp>
 
 #include <sstream>
 

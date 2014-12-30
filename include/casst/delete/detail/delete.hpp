@@ -1,6 +1,6 @@
 #pragma once
 
-#include <casst/types.hpp>
+#include <casst/datatypes.hpp>
 #include <casst/row.hpp>
 #include <casst/equal.hpp>
 #include <casst/and.hpp>

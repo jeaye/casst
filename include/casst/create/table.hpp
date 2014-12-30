@@ -1,6 +1,6 @@
 #pragma once
 
-#include <casst/types.hpp>
+#include <casst/datatypes.hpp>
 #include <casst/create/policy.hpp>
 #include <casst/create/detail/table.hpp>
 
