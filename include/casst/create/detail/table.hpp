@@ -108,7 +108,7 @@ namespace casst
           table<steps::columns> columns(Args &&...args)
           {
             std::ostringstream oss;
-            oss << "CREATE TABLE " << name_ << " ( ";
+            oss << "CREATE TABLE " << policy_ << name_ << " ( ";
             return { std::move(oss), std::forward<Args>(args)... };
           }
 
