@@ -6,10 +6,7 @@
 #include <casst/equal.hpp>
 #include <casst/and.hpp>
 
-// DELETE col1, col2, col3 FROM Planeteers WHERE userID = 'Captain';
-// casst::delete_().cols("col1", "col2", "col3").from("Planeteers").where(casst::equals("userID", "Captain"));
-// DELETE FROM MastersOfTheUniverse WHERE mastersID IN ('Man-At-Arms', 'Teela');
-// casst::delete_().from("MastersOfTheUniverse").where(casst::row("mastersID").in("Man-At-Arms", "Teela"));
+#include <sstream>
 
 namespace casst
 {
@@ -40,12 +37,24 @@ namespace casst
             return *this;
           }
 
-          template <typename... Args>
-          auto& where(Args &&...args)
+          template <typename T>
+          auto& where(T &&arg)
           {
-            oss_ << "WHERE ";
+            oss_ << "WHERE " << arg;
+            return *this;
+          }
+
+          template <typename... Args>
+          auto& if_(Args &&...args)
+          {
+            oss_ << "IF ";
             int const _[]{ (oss_ << args, 0)... };
             static_cast<void>(_);
+            return *this;
+          }
+          auto& if_exists()
+          {
+            oss_ << "IF EXISTS ";
             return *this;
           }
 

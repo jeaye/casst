@@ -45,15 +45,14 @@ namespace jest
   void casst::delete_group::test<2>() /* where + and */
   {
     expect_equal(casst::delete_().from("people").
-                                  where
+                                  where(casst::row("meow").in("kitty", "cat")).
+                                  if_
                                   (
-                                    casst::row("meow").in("kitty", "cat"),
-                                    casst::and_(),
                                     casst::equal("name", "meow"),
                                     casst::and_(),
                                     casst::equal("alive", false)
                                   ).to_string(),
-                 "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) AND name = 'meow' AND alive = false ");
+                 "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) IF name = 'meow' AND alive = false ");
   }
 
   template <> template <>
@@ -65,5 +64,16 @@ namespace jest
     expect_equal(casst::delete_().from("people").using_timestamp(0).
                                   where(casst::equal("alive", false)).to_string(),
                  "DELETE FROM people USING TIMESTAMP 0 WHERE alive = false ");
+  }
+
+  template <> template <>
+  void casst::delete_group::test<4>() /* exists */
+  {
+    expect_equal(casst::delete_().from("turb").if_exists().to_string(),
+                 "DELETE FROM turb IF EXISTS ");
+    expect_equal(casst::delete_().cols().from("turb").if_exists().to_string(),
+                 "DELETE FROM turb IF EXISTS ");
+    expect_equal(casst::delete_().cols("col1", "col2", "col3").from("turb").if_exists().to_string(),
+                 "DELETE col1, col2, col3 FROM turb IF EXISTS ");
   }
 }
