@@ -1,6 +1,7 @@
 #pragma once
 
 #include <casst/datatypes.hpp>
+#include <casst/detail/types.hpp>
 #include <casst/row.hpp>
 #include <casst/equal.hpp>
 #include <casst/and.hpp>
@@ -32,6 +33,12 @@ namespace casst
           del(std::ostringstream &&oss)
             : oss_{ std::move(oss) }
           { }
+
+          auto& using_timestamp(timestamp_t const time)
+          {
+            oss_ << "USING TIMESTAMP " << time << " ";
+            return *this;
+          }
 
           template <typename... Args>
           auto& where(Args &&...args)

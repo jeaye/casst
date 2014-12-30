@@ -55,4 +55,15 @@ namespace jest
                                   ).to_string(),
                  "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) AND name = 'meow' AND alive = false ");
   }
+
+  template <> template <>
+  void casst::delete_group::test<3>() /* timestamp */
+  {
+    expect_equal(casst::delete_().from("people").using_timestamp(476500).
+                                  where(casst::equal("alive", false)).to_string(),
+                 "DELETE FROM people USING TIMESTAMP 476500 WHERE alive = false ");
+    expect_equal(casst::delete_().from("people").using_timestamp(0).
+                                  where(casst::equal("alive", false)).to_string(),
+                 "DELETE FROM people USING TIMESTAMP 0 WHERE alive = false ");
+  }
 }
