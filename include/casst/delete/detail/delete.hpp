@@ -3,7 +3,8 @@
 #include <casst/datatypes.hpp>
 #include <casst/detail/types.hpp>
 #include <casst/row.hpp>
-#include <casst/equal.hpp>
+#include <casst/row_slice.hpp>
+#include <casst/compare.hpp>
 #include <casst/and.hpp>
 
 #include <sstream>
