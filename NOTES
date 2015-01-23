@@ -3,55 +3,6 @@ list positions
 
 -------------------------------------------------------------------------------
 
-"CREATE keyspace
-  if not exists cmb_tables
-    WITH REPLICATION =
-{ 'class' : 'SimpleStrategy', 'replication_factor' : 1 }"
-
-casst::create("keyspace").
-  _if(casst::_not(casst::exists("cmb_tables"))).
-    with_replication<casst::_class::simple>(casst::replication_factor(1));
-
-"CREATE TABLE IF NOT EXISTS cmb_tables.pubsub_node ("
-            "node_id text,"    //node id
-            "jid text,"        //subscriber's bare jid
-            "res text,"        //subscriber's resource
-            "sub_id text,"     //subscription id for multiple subscription
-            "item_id text,"    //item id published
-            "item_ts timestamp," //item published timestamp
-            "itm_pjid text,"     //publisher's barejid of item
-            "itm_pres text,"     //publisher's resource of item
-            "sub_ops map<text, text>,"  //subscription options for a subscribe
-            "conf map<text, text>,"     //node configure options
-            "affi text,"                //affiliation for user
-            "rgrps set<text>,"          //roster groups allowed for this node
-            "item_pl text,"             //published item's payload.
-            "exist boolean,"            //a flag to check, if this data has been deleted.
-            "type int,"                 //type of the row, 1=>node config, 2=>affiliation, 3=>
-                                        //subscription, 4=>published item
-            "PRIMARY KEY ((node_id), type, jid, item_id, res, sub_id)"
-            ");
-
-create_table<if_not_exists>("cmb_tables.pubsub_node").
-  column(primary("primary_key"),
-         text("node_id"),
-         map<text, text>("sub_ops"), boolean("exist")).
-
-"CREATE TABLE Cats (
-  block_id uuid,
-  breed text,
-  color text,
-  short_hair boolean,
-  PRIMARY KEY ((block_id, breed), color, short_hair)
-);"
-
-create_table("emp").
- column(integer("empID"),
-        integer("deptID"),
-        varchar("first_name"),
-        varchar("last_name"),
-        primary(composite("block_id", "breed"), "color", "short_hair")).to_string()
-
 "SELECT conf, rgrps from " + keyspace_table_name +
 "WHERE node_id = ? and jid = '' and type = 1 and res = '' and sub_id='' and item_id='' and exist=True "
 
@@ -63,3 +14,26 @@ select("conf", "rgrps").from("foo").where(
       equal("sub_id", ""),
       equal("item_id", ""),
       equal("exist", true)))
+
+select foo, bar FROM
+  casst::select("foo", "bar").from
+select foo AS f, bar AS b FROM
+  casst::select(casst::alias("foo", "f"), casst::alias("bar", "b")).from
+  casst::select("foo", casst::as(), "f", "bar", casst::as(), "b").from
+  casst::select("foo", casst::as("f"), "bar", casst::as("b")).from
+select WRITETIME( foo ) AS f FROM
+  casst::select(casst::alias(casst::writetime("foo"), "f")).from
+select TTL( foo ) AS f FROM
+  casst::select(casst::alias(casst::ttl("foo"), "f")).from
+select dateOf( foo ) AS f, bar AS b FROM
+  casst::select(casst::alias(casst::date_of("foo"), "f"), casst::alias("bar", "b")).from
+select DISTINCT foo, bar FROM
+  casst::select_distinct("foo", "bar").from
+select DISTINCT foo AS f, bar AS b FROM
+select DISTINCT WRITETIME( foo ) AS f FROM
+select DISTINCT TTL( foo ) AS f FROM
+select DISTINCT dateOf( foo ) AS f, bar AS b FROM
+select COUNT( * ) FROM
+  casst::select_count().from
+select COUNT( 1 ) FROM
+  casst::select_count().from
