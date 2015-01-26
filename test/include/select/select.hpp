@@ -16,45 +16,45 @@ namespace jest
   template <> template <>
   void casst::select_group::test<0>() /* basic */
   {
-    expect_equal(casst::select("foo").to_string(),
-                 "SELECT foo  ");
-    expect_equal(casst::select("foo", "bar").to_string(),
-                 "SELECT foo, bar  ");
+    expect_equal(casst::select("foo").from("kitty").to_string(),
+                 "SELECT foo FROM kitty ");
+    expect_equal(casst::select("foo", "bar").from("kitty").to_string(),
+                 "SELECT foo, bar FROM kitty ");
   }
 
   template <> template <>
   void casst::select_group::test<1>() /* distinct */
   {
-    expect_equal(casst::select_distinct("foo").to_string(),
-                 "SELECT DISTINCT foo  ");
-    expect_equal(casst::select_distinct("foo", "bar").to_string(),
-                 "SELECT DISTINCT foo, bar  ");
+    expect_equal(casst::select_distinct("foo").from("kitty").to_string(),
+                 "SELECT DISTINCT foo FROM kitty ");
+    expect_equal(casst::select_distinct("foo", "bar").from("kitty").to_string(),
+                 "SELECT DISTINCT foo, bar FROM kitty ");
   }
 
   template <> template <>
   void casst::select_group::test<2>() /* count */
   {
-    expect_equal(casst::select_count("foo").to_string(),
-                 "SELECT COUNT ( * ) foo  ");
-    expect_equal(casst::select_count("foo", "bar").to_string(),
-                 "SELECT COUNT ( * ) foo, bar  ");
+    expect_equal(casst::select_count("foo").from("kitty").to_string(),
+                 "SELECT COUNT ( * ) foo FROM kitty ");
+    expect_equal(casst::select_count("foo", "bar").from("kitty").to_string(),
+                 "SELECT COUNT ( * ) foo, bar FROM kitty ");
   }
 
   template <> template <>
   void casst::select_group::test<3>() /* expressions */
   {
-    expect_equal(casst::select(casst::alias("foo", "f")).to_string(),
-                 "SELECT foo AS f  ");
+    expect_equal(casst::select(casst::alias("foo", "f")).from("kitty").to_string(),
+                 "SELECT foo AS f FROM kitty ");
     expect_equal(casst::select(casst::alias("foo", "f"),
-                  casst::alias("bar", "b")).to_string(),
-                 "SELECT foo AS f, bar AS b  ");
+                  casst::alias("bar", "b")).from("kitty").to_string(),
+                 "SELECT foo AS f, bar AS b FROM kitty ");
 
     expect_equal(casst::select(casst::alias(casst::writetime("foo"), "f")).
-                  to_string(),
-                 "SELECT WRITETIME( foo ) AS f  ");
+                  from("kitty").to_string(),
+                 "SELECT WRITETIME( foo ) AS f FROM kitty ");
 
     expect_equal(casst::select(casst::alias(casst::ttl("foo"), "f")).
-                  to_string(),
-                 "SELECT TTL( foo ) AS f  ");
+                  from("kitty").to_string(),
+                 "SELECT TTL( foo ) AS f FROM kitty ");
   }
 }

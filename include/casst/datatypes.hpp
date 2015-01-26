@@ -69,4 +69,7 @@ namespace casst
   { return { name, "int" }; }
   inline data_type_t varint(std::string const &name)
   { return { name, "varint" }; }
+
+  inline char constexpr const* binding()
+  { return "?"; }
 }

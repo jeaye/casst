@@ -11,7 +11,7 @@ namespace casst
     template <typename... Args>
     auto select_impl(std::ostringstream &&oss, Args &&...args)
     {
-      return select::select<select::steps::base>
+      return select::select<select::step::base>
       { std::move(oss), std::forward<Args>(args)... };
     }
   }
