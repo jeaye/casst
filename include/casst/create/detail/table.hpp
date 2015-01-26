@@ -78,7 +78,8 @@ namespace casst
           table(std::ostringstream &&oss, Args &&...args)
             : oss_{ std::move(oss) }
           {
-            int const _[]{ (oss_ << args.first << " " << args.second << ", ", 0)... };
+            int const _[]
+            { (oss_ << args.first << " " << args.second << ", ", 0)... };
             static_cast<void>(_);
           }
 
@@ -86,7 +87,8 @@ namespace casst
           table<steps::primary_key> primary_key(Args &&...args)
           { return { std::move(oss_), std::forward<Args>(args)... }; }
           template <std::size_t N, typename... Args>
-          table<steps::primary_key> primary_key(composite<N> const &comp, Args &&...args)
+          table<steps::primary_key> primary_key(composite<N> const &comp,
+                                                Args &&...args)
           { return { std::move(oss_), comp, std::forward<Args>(args)... }; }
 
         private:
