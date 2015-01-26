@@ -2,6 +2,7 @@
 
 #include <casst/datatypes.hpp>
 #include <casst/select/detail/select.hpp>
+#include <casst/select/expression.hpp>
 
 namespace casst
 {

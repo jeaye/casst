@@ -11,11 +11,6 @@ namespace casst
   {
     namespace select
     {
-      struct distinct
-      { };
-      struct count
-      { };
-
       enum class steps
       {
         base
