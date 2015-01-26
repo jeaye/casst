@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <casst/detail/render.hpp>
+#include <casst/detail/is_comparable.hpp>
 
 namespace casst
 {
@@ -43,6 +44,8 @@ namespace casst
     template <sigil Sigil, typename LHS, typename RHS>
     struct compare
     {
+      static_assert(detail::is_comparable<LHS, RHS>(),
+                    "LHS and RHS are not comparable");
       trait::normalize_t<LHS> lhs{};
       trait::normalize_t<RHS> rhs{};
     };
