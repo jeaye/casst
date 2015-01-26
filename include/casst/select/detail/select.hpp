@@ -11,20 +11,45 @@ namespace casst
   {
     namespace select
     {
-      enum class steps
+      enum class step
       {
-        base
+        base,
+        from
       };
 
-      template <steps S>
+      template <step S>
       class select;
 
       template <>
-      class select<steps::base>
+      class select<step::from>
       {
         public:
           select() = delete;
 
+          select(std::ostringstream &&oss)
+            : oss_{ std::move(oss) }
+          { }
+
+          template <typename... Args>
+          select& where(Args &&...)
+          {
+            return *this;
+          }
+
+          std::string to_string()
+          { return oss_.str(); }
+
+        private:
+          std::ostringstream oss_;
+      };
+
+      template <>
+      class select<step::base>
+      {
+        public:
+          select() = delete;
+
+          /* TODO: Support the rest of the functions. (blob, timeuuid, etc) */
           template <typename... Args>
           select(std::ostringstream &&oss, Args &&...args)
             : oss_{ std::move(oss) }
@@ -37,8 +62,11 @@ namespace casst
             oss_ << " ";
           }
 
-          std::string to_string()
-          { return oss_.str(); }
+          select<step::from> from(std::string const &table)
+          {
+            oss_ << "FROM " << table << " ";
+            return { std::move(oss_) };
+          }
 
         private:
           std::ostringstream oss_;

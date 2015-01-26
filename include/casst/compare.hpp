@@ -25,6 +25,10 @@ namespace casst
     { return " > "; }
     char constexpr const* greater_equal()
     { return " >= "; }
+    char constexpr const* contains()
+    { return " CONTAINS "; }
+    char constexpr const* contains_key()
+    { return " CONTAINS KEY "; }
 
     template <sigil Sigil, typename LHS, typename RHS>
     struct compare
@@ -70,4 +74,12 @@ namespace casst
   template <typename LHS, typename RHS>
   auto greater_equal(LHS const &lhs, RHS const &rhs)
   { return detail::compare<&detail::greater_equal, LHS, RHS>{ lhs, rhs }; }
+
+  template <typename T>
+  auto contains(T const &t)
+  { return detail::compare<&detail::contains, char const*, T>{ "", t }; }
+
+  template <typename T>
+  auto contains_key(T const &t)
+  { return detail::compare<&detail::contains_key, char const*, T>{ "", t }; }
 }
