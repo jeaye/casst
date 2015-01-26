@@ -3,6 +3,7 @@
 #include <casst/datatypes.hpp>
 #include <casst/select/detail/select.hpp>
 #include <casst/select/expression.hpp>
+#include <casst/select/token.hpp>
 
 namespace casst
 {

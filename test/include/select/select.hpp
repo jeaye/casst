@@ -133,4 +133,20 @@ namespace jest
                  limit(2).allow_filtering().to_string(),
                  "SELECT DISTINCT foo FROM kitty LIMIT 2 ALLOW FILTERING ");
   }
+
+  template <> template <>
+  void casst::select_group::test<9>() /* token */
+  {
+    expect_equal(casst::select("foo").from("kitty").
+                 where
+                 (
+                  casst::equal
+                  (
+                    casst::token(casst::column("period")),
+                    casst::token("third_age")
+                  )
+                 ).to_string(),
+                 "SELECT foo FROM kitty "
+                 "WHERE TOKEN ( period ) = TOKEN ( 'third_age' ) ");
+  }
 }

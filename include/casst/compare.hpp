@@ -39,8 +39,8 @@ namespace casst
       static_assert(trait::is_comparable<normal_lhs, normal_rhs>(),
                     "LHS and RHS are not comparable");
 
-      normal_lhs lhs{};
-      normal_rhs rhs{};
+      normal_lhs lhs;
+      normal_rhs rhs;
     };
 
     template <sigil Sigil, typename LHS, typename RHS>
