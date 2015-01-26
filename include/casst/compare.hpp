@@ -6,6 +6,7 @@
 #include <casst/detail/render.hpp>
 #include <casst/trait/is_comparable.hpp>
 #include <casst/trait/normalize.hpp>
+#include <casst/and.hpp>
 
 namespace casst
 {
@@ -47,7 +48,7 @@ namespace casst
     std::ostream& operator <<(std::ostream &os, compare<Sigil, LHS, RHS> const &e)
     {
       return os << e.lhs << Sigil()
-                << std::boolalpha << detail::render(e.rhs) << " ";
+                << std::boolalpha << detail::render_rvalue(e.rhs);
     }
   }
 

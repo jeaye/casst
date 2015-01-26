@@ -37,7 +37,7 @@ namespace casst
       {
         os << "IN ( ";
         for(auto const &in : r.in_)
-        { os << detail::to_string(in) + ", "; }
+        { os << detail::to_rvalue(in) + ", "; }
         os.seekp(-2, std::ios_base::end);
         os << " ) ";
       }

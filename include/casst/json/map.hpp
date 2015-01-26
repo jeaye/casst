@@ -18,7 +18,7 @@ namespace casst
 
       template <typename T>
       value(T const &t)
-        : data{ detail::to_string(t) }
+        : data{ detail::to_rvalue(t) }
       { }
 
       std::string data;

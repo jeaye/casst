@@ -30,13 +30,13 @@ namespace jest
   {
     expect_equal(casst::delete_().from("turb").
                                   where(casst::equal("alive", false)).to_string(),
-                 "DELETE FROM turb WHERE alive = false ");
+                 "DELETE FROM turb WHERE alive = false");
     expect_equal(casst::delete_().cols("col1", "col2", "col3").from("turb").
                                   where(casst::equal("age", 18)).to_string(),
-                 "DELETE col1, col2, col3 FROM turb WHERE age = 18 ");
+                 "DELETE col1, col2, col3 FROM turb WHERE age = 18");
     expect_equal(casst::delete_().cols("col1", "col2", "col3").from("turb").
                                   where(casst::equal("name", "meow")).to_string(),
-                 "DELETE col1, col2, col3 FROM turb WHERE name = 'meow' ");
+                 "DELETE col1, col2, col3 FROM turb WHERE name = 'meow'");
     expect_equal(casst::delete_().from("turb").
                                   where(casst::row("meow").in("kitty", "cat")).
                                   to_string(),
@@ -63,10 +63,10 @@ namespace jest
   {
     expect_equal(casst::delete_().from("people").using_timestamp(476500).
                                   where(casst::equal("alive", false)).to_string(),
-                 "DELETE FROM people USING TIMESTAMP 476500 WHERE alive = false ");
+                 "DELETE FROM people USING TIMESTAMP 476500 WHERE alive = false");
     expect_equal(casst::delete_().from("people").using_timestamp(0).
                                   where(casst::equal("alive", false)).to_string(),
-                 "DELETE FROM people USING TIMESTAMP 0 WHERE alive = false ");
+                 "DELETE FROM people USING TIMESTAMP 0 WHERE alive = false");
   }
 
   template <> template <>

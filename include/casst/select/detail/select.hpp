@@ -14,11 +14,29 @@ namespace casst
       enum class step
       {
         base,
-        from
+        from,
+        where
       };
 
       template <step S>
       class select;
+
+      template <>
+      class select<step::where>
+      {
+        public:
+          select() = delete;
+
+          select(std::ostringstream &&oss)
+            : oss_{ std::move(oss) }
+          { }
+
+          std::string to_string()
+          { return oss_.str(); }
+
+        private:
+          std::ostringstream oss_;
+      };
 
       template <>
       class select<step::from>
@@ -31,9 +49,14 @@ namespace casst
           { }
 
           template <typename... Args>
-          select& where(Args &&...)
+          select<step::where> where(Args &&...args)
           {
-            return *this;
+            oss_ << "WHERE ";
+            int const _[]
+            { (oss_ << args << " ", 0)... };
+            static_cast<void>(_);
+
+            return { std::move(oss_) };
           }
 
           std::string to_string()

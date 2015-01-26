@@ -36,6 +36,6 @@ namespace casst
   {
     detail::assert_size<sizeof...(args)>();
     return detail::row_slice<sizeof...(args)>
-    { { { detail::to_string(std::forward<Args>(args))...  } } };
+    { { { detail::to_rvalue(std::forward<Args>(args))...  } } };
   }
 }

@@ -10,30 +10,53 @@ namespace casst
   namespace detail
   {
     template <typename T>
-    struct renderer
+    struct lvalue_renderer
+    { T const &data; };
+    template <typename T>
+    struct rvalue_renderer
     { T const &data; };
     
     template <typename T>
-    auto render(T const &t)
-    { return renderer<T>{ t }; }
+    auto render_lvalue(T const &t)
+    { return lvalue_renderer<T>{ t }; }
+    template <typename T>
+    auto render_rvalue(T const &t)
+    { return rvalue_renderer<T>{ t }; }
 
     template <typename T>
-    std::ostream& operator <<(std::ostream &os, renderer<T> const &t)
+    std::ostream& operator <<(std::ostream &os, lvalue_renderer<T> const &t)
+    { return os << t.data; }
+
+    template <typename T>
+    std::ostream& operator <<(std::ostream &os, rvalue_renderer<T> const &t)
     { return os << t.data; }
     template <>
     inline std::ostream& operator <<<std::string>(std::ostream &os,
-                                                  renderer<std::string> const &str)
+                                            rvalue_renderer<std::string> const &str)
     { return os << "'" << str.data << "'"; }
 
+    /* rvalues, in CQL, are quoted or literal values. */
     template <typename T>
-    std::string to_string(T const &t)
+    std::string to_rvalue(T const &t)
     { return std::to_string(t); }
-    inline std::string to_string(std::string const &str)
+    inline std::string to_rvalue(std::string const &str)
     { return "'" + str + "'"; }
-    inline std::string to_string(char const * const str)
-    { return to_string(std::string{ str }); }
+    inline std::string to_rvalue(char const * const str)
+    { return to_rvalue(std::string{ str }); }
 
-    inline std::string to_string(detail::column const &column)
+    inline std::string to_rvalue(detail::column const &column)
+    { return column.name_; }
+
+    /* lvalues, in CQL, are unquoted names. */
+    template <typename T>
+    std::string to_lvalue(T const &t)
+    { return std::to_string(t); }
+    inline std::string to_lvalue(std::string const &str)
+    { return str; }
+    inline std::string to_lvalue(char const * const str)
+    { return str; }
+
+    inline std::string to_lvalue(detail::column const &column)
     { return column.name_; }
   }
 }
