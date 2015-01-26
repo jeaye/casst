@@ -5,7 +5,6 @@
 #include <casst/row.hpp>
 #include <casst/row_slice.hpp>
 #include <casst/compare.hpp>
-#include <casst/and.hpp>
 
 #include <sstream>
 

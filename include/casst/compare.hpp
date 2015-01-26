@@ -6,7 +6,6 @@
 #include <casst/detail/render.hpp>
 #include <casst/trait/is_comparable.hpp>
 #include <casst/trait/normalize.hpp>
-#include <casst/and.hpp>
 
 namespace casst
 {
@@ -83,4 +82,7 @@ namespace casst
   template <typename T>
   auto contains_key(T const &t)
   { return detail::compare<&detail::contains_key, char const*, T>{ "", t }; }
+
+  inline std::string and_()
+  { return "AND"; }
 }
