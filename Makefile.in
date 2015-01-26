@@ -2,7 +2,8 @@
 OUT_DIR = bin/
 SOURCES = test/src/create/keyspace.cpp \
           test/src/create/table.cpp \
-          test/src/delete/delete.cpp
+          test/src/delete/delete.cpp \
+          test/src/select/select.cpp
 OBJECTS = ${SOURCES:.cpp=.cpp.o}
 TEST_OBJECTS = $(SOURCES:.cpp=.test)
 
@@ -11,14 +12,14 @@ PREFIX = %PREFIX%
 INCLUDEDIR = %INCLUDEDIR%
 
 # Compiler flags
-CXX ?= c++
+CXX = clang++
 CXX_WARN_FLAGS = -Wall -Wextra -Werror -pedantic
 CXX_NO_WARN_FLAGS = -Wno-zero-length-array
 CXX_DEBUG_FLAGS = 
 CXX_OPTIM_FLAGS = -ggdb
 CXX_INCLUDE_FLAGS = -Itest/include -Iinclude -Ilib/jest/include
 CXX_PLATFORM_FLAGS = %CXX_PLATFORM_FLAGS%
-CXX_FLAGS += -std=c++1y \
+CXX_FLAGS += -std=c++1y -stdlib=libc++ \
 						 ${CXX_PLATFORM_FLAGS} \
 						 ${CXX_INCLUDE_FLAGS} \
 						 ${CXX_NO_WARN_FLAGS} \

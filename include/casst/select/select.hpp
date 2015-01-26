@@ -1,35 +1,41 @@
 #pragma once
 
 #include <casst/datatypes.hpp>
-#include <casst/json/map.hpp>
-
-#include <sstream>
+#include <casst/select/detail/select.hpp>
 
 namespace casst
 {
   namespace detail
   {
-    namespace select
+    template <typename... Args>
+    auto select_impl(std::ostringstream &&oss, Args &&...args)
     {
-      enum class steps
-      {
-        base
-      };
-
-      template <steps S>
-      class select;
-
-      template <>
-      class select<steps::base>
-      {
-        public:
-          select(std::string const &name)
-            : name_{ name }
-          { }
-
-        private:
-          std::string const name_;
-      };
+      return select::select<select::steps::base>
+      { std::move(oss), std::forward<Args>(args)... };
     }
+  }
+
+  template <typename... Args>
+  auto select(Args &&...args)
+  {
+    std::ostringstream oss; oss << "SELECT ";
+    return detail::select_impl(std::move(oss),
+                               std::forward<Args>(args)...);
+  }
+
+  template <typename... Args>
+  auto select_distinct(Args &&...args)
+  {
+    std::ostringstream oss; oss << "SELECT DISTINCT ";
+    return detail::select_impl(std::move(oss),
+                               std::forward<Args>(args)...);
+  }
+
+  template <typename... Args>
+  auto select_count(Args &&...args)
+  {
+    std::ostringstream oss; oss << "SELECT COUNT ( * ) ";
+    return detail::select_impl(std::move(oss),
+                               std::forward<Args>(args)...);
   }
 }
