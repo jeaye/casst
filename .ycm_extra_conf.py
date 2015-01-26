@@ -13,7 +13,6 @@ flags = [
 '-Iinclude',
 '-Itest/include',
 '-Ilib/jest/include',
-'-Ilib/jeayeson/include',
 
 '-isystem',
 '../BoostParts',

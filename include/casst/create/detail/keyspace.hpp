@@ -1,7 +1,7 @@
 #pragma once
 
-#include <jeayeson/jeayeson.hpp>
 #include <casst/datatypes.hpp>
+#include <casst/json/map.hpp>
 
 #include <sstream>
 
@@ -37,25 +37,31 @@ namespace casst
       class keyspace<steps::with_replication>
       {
         public:
-          keyspace(std::ostringstream &&oss, simple_strategy const, replication_factor const rf)
+          keyspace(std::ostringstream &&oss, simple_strategy const,
+                   replication_factor const rf)
             : oss_{ std::move(oss) }
           {
-            map_["class"] = "SimpleStrategy";
-            map_["replication_factor"] = rf.factor;
-
-            oss_ << "WITH REPLICATION = " << map_ << " ";
+            oss_ << "WITH REPLICATION = "
+                 << json::map
+                 {
+                   { "class", "SimpleStrategy" },
+                   { "replication_factor", rf.factor }
+                 }
+                 << " ";
           }
 
           template <typename... DBs>
-          keyspace(std::ostringstream &&oss, network_topology_strategy const, DBs &&...dbs)
+          keyspace(std::ostringstream &&oss, network_topology_strategy const,
+                   DBs &&...dbs)
             : oss_{ std::move(oss) }
           {
-            map_["class"] = "NetworkTopologyStrategy";
-
-            int const _[]{ (map_[dbs.name] = dbs.replicas, 0)... };
-            static_cast<void>(_);
-
-            oss_ << "WITH REPLICATION = " << map_ << " ";
+            oss_ << "WITH REPLICATION = "
+                 << json::map
+                 {
+                   { "class", "NetworkTopologyStrategy" },
+                   { dbs.name, dbs.replicas }...
+                 }
+                 << " ";
           }
 
           keyspace& and_durable_writes(bool const b)
@@ -68,7 +74,7 @@ namespace casst
           { return oss_.str(); }
 
         private:
-          json_map map_;
+          json::map map_;
           std::ostringstream oss_;
       };
 
@@ -94,12 +100,15 @@ namespace casst
             return { std::move(oss), Strategy{}, std::forward<Args>(args)... };
           }
 
-          keyspace<steps::with_replication> with_replication_simple(replication_factor const rf)
+          keyspace<steps::with_replication> with_replication_simple(
+                                              replication_factor const rf)
           { return with_replication<simple_strategy>(rf); }
 
           template <typename... DBs>
-          keyspace<steps::with_replication> with_replication_network_topology(DBs &&...dbs)
-          { return with_replication<network_topology_strategy>(std::forward<DBs>(dbs)...); }
+          keyspace<steps::with_replication> with_replication_network_topology(
+                                              DBs &&...dbs)
+          { return with_replication<network_topology_strategy>(
+                    std::forward<DBs>(dbs)...); }
 
         private:
           std::string const name_, policy_;

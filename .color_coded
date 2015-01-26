@@ -2,4 +2,3 @@
 -Itest/include
 -Iinclude
 -Ilib/jest/include
--Ilib/jeayeson/include
