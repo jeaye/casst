@@ -117,4 +117,12 @@ namespace jest
                  "SELECT COUNT ( * ) foo FROM kitty WHERE name = 'meow' "
                  "AND ( bat, sword ) <> ( 'tab', 'drows' ) ");
   }
+
+  template <> template <>
+  void casst::select_group::test<7>() /* limit */
+  {
+    expect_equal(casst::select_distinct("foo").from("kitty").
+                 limit(2).to_string(),
+                 "SELECT DISTINCT foo FROM kitty LIMIT 2 ");
+  }
 }
