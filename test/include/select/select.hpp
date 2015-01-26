@@ -125,4 +125,12 @@ namespace jest
                  limit(2).to_string(),
                  "SELECT DISTINCT foo FROM kitty LIMIT 2 ");
   }
+
+  template <> template <>
+  void casst::select_group::test<8>() /* allow filtering */
+  {
+    expect_equal(casst::select_distinct("foo").from("kitty").
+                 limit(2).allow_filtering().to_string(),
+                 "SELECT DISTINCT foo FROM kitty LIMIT 2 ALLOW FILTERING ");
+  }
 }

@@ -47,6 +47,12 @@ namespace casst
             return *this;
           }
 
+          select& allow_filtering()
+          {
+            oss_ << "ALLOW FILTERING ";
+            return *this;
+          }
+
           std::string to_string()
           { return oss_.str(); }
 
