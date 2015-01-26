@@ -68,6 +68,9 @@ namespace jest
     expect_equal(casst::select_count("foo", "bar").from("kitty").
                   where(casst::equal("age", 42)).to_string(),
                  "SELECT COUNT ( * ) foo, bar FROM kitty WHERE age = 42 ");
+    expect_equal(casst::select_count("foo", "bar").from("kitty").
+                  where(casst::equal("blah", casst::binding())).to_string(),
+                 "SELECT COUNT ( * ) foo, bar FROM kitty WHERE blah = ? ");
   }
 
   template <> template <>
