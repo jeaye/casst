@@ -4,7 +4,8 @@
 #include <iostream>
 
 #include <casst/detail/render.hpp>
-#include <casst/detail/is_comparable.hpp>
+#include <casst/trait/is_comparable.hpp>
+#include <casst/trait/normalize.hpp>
 
 namespace casst
 {
@@ -25,29 +26,17 @@ namespace casst
     char constexpr const* greater_equal()
     { return " >= "; }
 
-    namespace trait
-    {
-      template <typename T>
-      struct normalize
-      { using type = T; };
-      template <std::size_t N>
-      struct normalize<char const [N]>
-      { using type = std::string; };
-      template <std::size_t N>
-      struct normalize<char [N]>
-      { using type = std::string; };
-
-      template <typename T>
-      using normalize_t = typename normalize<T>::type;
-    }
-
     template <sigil Sigil, typename LHS, typename RHS>
     struct compare
     {
-      static_assert(detail::is_comparable<LHS, RHS>(),
+      using normal_lhs = trait::normalize_t<LHS>;
+      using normal_rhs = trait::normalize_t<RHS>;
+
+      static_assert(trait::is_comparable<normal_lhs, normal_rhs>(),
                     "LHS and RHS are not comparable");
-      trait::normalize_t<LHS> lhs{};
-      trait::normalize_t<RHS> rhs{};
+
+      normal_lhs lhs{};
+      normal_rhs rhs{};
     };
 
     template <sigil Sigil, typename LHS, typename RHS>
