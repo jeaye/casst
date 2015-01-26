@@ -148,5 +148,23 @@ namespace jest
                  ).to_string(),
                  "SELECT foo FROM kitty "
                  "WHERE TOKEN ( period ) = TOKEN ( 'third_age' ) ");
+    expect_equal(casst::select("foo").from("kitty").
+                 where
+                 (
+                  casst::equal
+                  (
+                    casst::token(casst::column("period")),
+                    casst::token("third_age")
+                  ),
+                  casst::and_(),
+                  casst::not_equal
+                  (
+                    casst::token(casst::column("answer")),
+                    casst::token(42)
+                  )
+                 ).to_string(),
+                 "SELECT foo FROM kitty "
+                 "WHERE TOKEN ( period ) = TOKEN ( 'third_age' ) "
+                 "AND TOKEN ( answer ) <> TOKEN ( 42 ) ");
   }
 }
