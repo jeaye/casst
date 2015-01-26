@@ -3,6 +3,8 @@
 #include <string>
 #include <sstream>
 
+#include <casst/column.hpp>
+
 namespace casst
 {
   namespace detail
@@ -26,10 +28,12 @@ namespace casst
     template <typename T>
     std::string to_string(T const &t)
     { return std::to_string(t); }
-    template <>
-    inline std::string to_string<std::string>(std::string const &str)
+    inline std::string to_string(std::string const &str)
     { return "'" + str + "'"; }
     inline std::string to_string(char const * const str)
     { return to_string(std::string{ str }); }
+
+    inline std::string to_string(detail::column const &column)
+    { return column.name_; }
   }
 }

@@ -20,7 +20,8 @@ namespace jest
                  "DELETE FROM turb ");
     expect_equal(casst::delete_().cols().from("turb").to_string(),
                  "DELETE FROM turb ");
-    expect_equal(casst::delete_().cols("col1", "col2", "col3").from("turb").to_string(),
+    expect_equal(casst::delete_().cols("col1", "col2", "col3").
+                                  from("turb").to_string(),
                  "DELETE col1, col2, col3 FROM turb ");
   }
 
@@ -37,7 +38,8 @@ namespace jest
                                   where(casst::equal("name", "meow")).to_string(),
                  "DELETE col1, col2, col3 FROM turb WHERE name = 'meow' ");
     expect_equal(casst::delete_().from("turb").
-                                  where(casst::row("meow").in("kitty", "cat")).to_string(),
+                                  where(casst::row("meow").in("kitty", "cat")).
+                                  to_string(),
                  "DELETE FROM turb WHERE meow IN ( 'kitty', 'cat' ) ");
   }
 
@@ -52,7 +54,8 @@ namespace jest
                                     casst::and_(),
                                     casst::equal("alive", false)
                                   ).to_string(),
-                 "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) IF name = 'meow' AND alive = false ");
+                 "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) "
+                 "IF name = 'meow' AND alive = false ");
   }
 
   template <> template <>
@@ -73,7 +76,29 @@ namespace jest
                  "DELETE FROM turb IF EXISTS ");
     expect_equal(casst::delete_().cols().from("turb").if_exists().to_string(),
                  "DELETE FROM turb IF EXISTS ");
-    expect_equal(casst::delete_().cols("col1", "col2", "col3").from("turb").if_exists().to_string(),
+    expect_equal(casst::delete_().cols("col1", "col2", "col3").from("turb").
+                                  if_exists().to_string(),
                  "DELETE col1, col2, col3 FROM turb IF EXISTS ");
+  }
+
+  template <> template <>
+  void casst::delete_group::test<5>() /* row_slice */
+  {
+    expect_equal(casst::delete_().from("people").
+                                  where(casst::row("meow").in("kitty", "cat")).
+                                  if_
+                                  (
+                                    casst::equal
+                                    (
+                                      casst::row_slice
+                                      (
+                                        casst::column("name"),
+                                        casst::column("age")
+                                      ),
+                                      casst::row_slice("meow", 18)
+                                    )
+                                  ).to_string(),
+                 "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) "
+                 "IF ( name, age ) = ( 'meow', 18 ) ");
   }
 }

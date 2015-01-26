@@ -5,6 +5,8 @@
 #include <utility>
 #include <sstream>
 
+#include <casst/detail/render.hpp>
+
 namespace casst
 {
   namespace detail
@@ -19,7 +21,7 @@ namespace casst
       template <typename... Args>
       auto& in(Args &&...args)
       {
-        int const _[]{ (in_.push_back(std::forward<Args>(args)), 0)... };
+        int const _[]{ (in_.emplace_back(std::forward<Args>(args)), 0)... };
         static_cast<void>(_);
         return *this;
       }
@@ -35,7 +37,7 @@ namespace casst
       {
         os << "IN ( ";
         for(auto const &in : r.in_)
-        { os << "'" << in << "', "; }
+        { os << detail::to_string(in) + ", "; }
         os.seekp(-2, std::ios_base::end);
         os << " ) ";
       }

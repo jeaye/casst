@@ -4,6 +4,8 @@
 #include <sstream>
 #include <array>
 
+#include <casst/detail/render.hpp>
+
 namespace casst
 {
   namespace detail
@@ -23,9 +25,9 @@ namespace casst
 
       os << "( ";
       for(auto const &in : r.names)
-      { os << "'" << in << "', "; }
+      { os << in << ", "; }
       os.seekp(-2, std::ios_base::end);
-      return os << " ) ";
+      return os << " )";
     }
   }
 
@@ -33,6 +35,7 @@ namespace casst
   auto row_slice(Args &&...args)
   {
     detail::assert_size<sizeof...(args)>();
-    return detail::row_slice<sizeof...(args)>{ { std::forward<Args>(args)... } };
+    return detail::row_slice<sizeof...(args)>
+    { { { detail::to_string(std::forward<Args>(args))...  } } };
   }
 }

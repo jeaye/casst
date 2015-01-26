@@ -9,7 +9,7 @@ namespace casst
 {
   namespace detail
   {
-    using sigil = char const * (*)();
+    using sigil = char const* (*)();
 
     char constexpr const* equal()
     { return " = "; }
@@ -24,51 +24,58 @@ namespace casst
     char constexpr const* greater_equal()
     { return " >= "; }
 
-    template <sigil Sigil, typename T>
+    namespace trait
+    {
+      template <typename T>
+      struct normalize
+      { using type = T; };
+      template <std::size_t N>
+      struct normalize<char const [N]>
+      { using type = std::string; };
+      template <std::size_t N>
+      struct normalize<char [N]>
+      { using type = std::string; };
+
+      template <typename T>
+      using normalize_t = typename normalize<T>::type;
+    }
+
+    template <sigil Sigil, typename LHS, typename RHS>
     struct compare
     {
-      std::string name;
-      T value{};
+      trait::normalize_t<LHS> lhs{};
+      trait::normalize_t<RHS> rhs{};
     };
 
-    template <sigil Sigil, typename T>
-    std::ostream& operator <<(std::ostream &os, compare<Sigil, T> const &e)
-    { return os << e.name << Sigil() << std::boolalpha << detail::render(e.value) << " "; }
+    template <sigil Sigil, typename LHS, typename RHS>
+    std::ostream& operator <<(std::ostream &os, compare<Sigil, LHS, RHS> const &e)
+    {
+      return os << e.lhs << Sigil()
+                << std::boolalpha << detail::render(e.rhs) << " ";
+    }
   }
 
-  template <typename T>
-  auto equal(std::string const &name, T const &value)
-  { return detail::compare<&detail::equal, T>{ name, value }; }
-  auto equal(std::string const &name, char const * const value)
-  { return detail::compare<&detail::equal, std::string>{ name, value }; }
+  template <typename LHS, typename RHS>
+  auto equal(LHS const &lhs, RHS const &rhs)
+  { return detail::compare<&detail::equal, LHS, RHS>{ lhs, rhs }; }
 
-  template <typename T>
-  auto not_equal(std::string const &name, T const &value)
-  { return detail::compare<&detail::not_equal, T>{ name, value }; }
-  auto not_equal(std::string const &name, char const * const value)
-  { return detail::compare<&detail::not_equal, std::string>{ name, value }; }
+  template <typename LHS, typename RHS>
+  auto not_equal(LHS const &lhs, RHS const &rhs)
+  { return detail::compare<&detail::not_equal, LHS, RHS>{ lhs, rhs }; }
 
-  template <typename T>
-  auto less(std::string const &name, T const &value)
-  { return detail::compare<&detail::less, T>{ name, value }; }
-  auto less(std::string const &name, char const * const value)
-  { return detail::compare<&detail::less, std::string>{ name, value }; }
+  template <typename LHS, typename RHS>
+  auto less(LHS const &lhs, RHS const &rhs)
+  { return detail::compare<&detail::less, LHS, RHS>{ lhs, rhs }; }
 
-  template <typename T>
-  auto less_equal(std::string const &name, T const &value)
-  { return detail::compare<&detail::less_equal, T>{ name, value }; }
-  auto less_equal(std::string const &name, char const * const value)
-  { return detail::compare<&detail::less_equal, std::string>{ name, value }; }
+  template <typename LHS, typename RHS>
+  auto less_equal(LHS const &lhs, RHS const &rhs)
+  { return detail::compare<&detail::less_equal, LHS, RHS>{ lhs, rhs }; }
 
-  template <typename T>
-  auto greater(std::string const &name, T const &value)
-  { return detail::compare<&detail::greater, T>{ name, value }; }
-  auto greater(std::string const &name, char const * const value)
-  { return detail::compare<&detail::greater, std::string>{ name, value }; }
+  template <typename LHS, typename RHS>
+  auto greater(LHS const &lhs, RHS const &rhs)
+  { return detail::compare<&detail::greater, LHS, RHS>{ lhs, rhs }; }
 
-  template <typename T>
-  auto greater_equal(std::string const &name, T const &value)
-  { return detail::compare<&detail::greater_equal, T>{ name, value }; }
-  auto greater_equal(std::string const &name, char const * const value)
-  { return detail::compare<&detail::greater_equal, std::string>{ name, value }; }
+  template <typename LHS, typename RHS>
+  auto greater_equal(LHS const &lhs, RHS const &rhs)
+  { return detail::compare<&detail::greater_equal, LHS, RHS>{ lhs, rhs }; }
 }
