@@ -18,8 +18,14 @@ namespace casst
 
       std::string name_;
     };
+
+    std::ostream& operator <<(std::ostream &os, column const &c)
+    { return os << c.name_; }
   }
 
   inline auto column(std::string const &name)
   { return detail::column{ name }; }
+
+  inline auto all()
+  { return detail::column{ "*" }; }
 }

@@ -75,13 +75,13 @@ namespace casst
   auto greater_equal(LHS const &lhs, RHS const &rhs)
   { return detail::compare<&detail::greater_equal, LHS, RHS>{ lhs, rhs }; }
 
-  template <typename T>
-  auto contains(T const &t)
-  { return detail::compare<&detail::contains, char const*, T>{ "", t }; }
+  template <typename LHS, typename RHS>
+  auto contains(LHS const &lhs, RHS const &rhs)
+  { return detail::compare<&detail::contains, LHS, RHS>{ lhs, rhs }; }
 
-  template <typename T>
-  auto contains_key(T const &t)
-  { return detail::compare<&detail::contains_key, char const*, T>{ "", t }; }
+  template <typename LHS, typename RHS>
+  auto contains_key(LHS const &lhs, RHS const &rhs)
+  { return detail::compare<&detail::contains_key, LHS, RHS>{ lhs, rhs }; }
 
   inline std::string and_()
   { return "AND"; }

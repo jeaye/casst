@@ -167,4 +167,18 @@ namespace jest
                  "WHERE TOKEN ( period ) = TOKEN ( 'third_age' ) "
                  "AND TOKEN ( answer ) <> TOKEN ( 42 ) ");
   }
+
+  template <> template <>
+  void casst::select_group::test<10>() /* contains */
+  {
+    expect_equal(casst::select("album", "tags").from("playlists").
+                 where(casst::contains("tags", "blues")).to_string(),
+                 "SELECT album, tags FROM playlists WHERE tags CONTAINS 'blues' ");
+
+    expect_equal(casst::select(casst::all()).from("playlists").
+                 where(casst::contains_key("venue", "2014-09-22 22:00:00-0700")).
+                 to_string(),
+                 "SELECT * FROM playlists "
+                 "WHERE venue CONTAINS KEY '2014-09-22 22:00:00-0700' ");
+  }
 }
