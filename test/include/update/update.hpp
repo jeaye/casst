@@ -4,6 +4,7 @@
 
 #include <casst/update/update.hpp>
 #include <casst/compare.hpp>
+#include <casst/arithmetic.hpp>
 
 namespace casst
 {
@@ -33,5 +34,19 @@ namespace jest
                                         casst::option::timestamp(77)
                                       ).to_string(),
                  "UPDATE foo USING TTL 42 AND TIMESTAMP 77 ");
+  }
+
+  template <> template <>
+  void casst::update_group::test<2>() /* set */
+  {
+    expect_equal(casst::update("foo").
+                  using_(casst::option::ttl(0)).
+                  set
+                  (
+                    casst::equal("foo", casst::sum("foo", 2)),
+                    casst::equal("bar", "spam")
+                  ).
+                  to_string(),
+                 "UPDATE foo USING TTL 0 SET foo = foo + 2, bar = 'spam'  ");
   }
 }

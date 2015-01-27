@@ -44,10 +44,12 @@ namespace casst
     };
 
     template <sigil Sigil, typename LHS, typename RHS>
-    std::ostream& operator <<(std::ostream &os, compare<Sigil, LHS, RHS> const &e)
+    std::ostream& operator <<(std::ostream &os,
+                              compare<Sigil, LHS, RHS> const &e)
     {
       return os << e.lhs << Sigil()
-                << std::boolalpha << detail::render_rvalue(e.rhs);
+                << std::boolalpha
+                << detail::render_rvalue(e.rhs);
     }
   }
 

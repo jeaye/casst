@@ -36,6 +36,17 @@ namespace casst
             return *this;
           }
 
+          template <typename... Args>
+          update& set(Args &&...args)
+          {
+            oss_ << "SET ";
+            int const _[]
+            { (oss_ << args << ", ", 0)... };
+            static_cast<void>(_);
+            oss_.seekp(-2, std::ios_base::end); oss_ << " ";
+            return *this;
+          }
+
           std::string to_string() const
           { return oss_.str(); }
 
