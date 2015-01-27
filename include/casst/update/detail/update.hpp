@@ -32,6 +32,23 @@ namespace casst
           update& where(Args &&...args)
           {
             oss_ << "WHERE ";
+            return if_where(std::forward<Args>(args)...);
+          }
+
+          template <typename... Args>
+          update& if_(Args &&...args)
+          {
+            oss_ << "IF ";
+            return if_where(std::forward<Args>(args)...);
+          }
+
+          std::string to_string() const
+          { return oss_.str(); }
+
+        private:
+          template <typename... Args>
+          update& if_where(Args &&...args)
+          {
             int const _[]
             { (oss_ << args << " ", 0)... };
             static_cast<void>(_);
@@ -39,10 +56,6 @@ namespace casst
             return *this;
           }
 
-          std::string to_string() const
-          { return oss_.str(); }
-
-        private:
           std::ostringstream oss_;
       };
 

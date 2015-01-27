@@ -90,4 +90,25 @@ namespace jest
                   to_string(),
                  "UPDATE foo SET alive = true WHERE age IN ( 42, 37, 10 )  ");
   }
+
+  template <> template <>
+  void casst::update_group::test<5>() /* if */
+  {
+    expect_equal(casst::update("foo").
+                  set(casst::equal("alive", true)).
+                  if_(casst::equal("alive", false)).
+                  to_string(),
+                 "UPDATE foo SET alive = true IF alive = false ");
+    expect_equal(casst::update("foo").
+                  set(casst::equal("alive", true)).
+                  if_
+                  (
+                    casst::equal("alive", false),
+                    casst::and_(),
+                    casst::not_equal("name", "simba")
+                  ).
+                  to_string(),
+                 "UPDATE foo SET alive = true IF alive = false "
+                 "AND name <> 'simba' ");
+  }
 }
