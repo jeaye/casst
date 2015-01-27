@@ -53,7 +53,7 @@ namespace casst
             return *this;
           }
 
-          std::string to_string()
+          std::string to_string() const
           { return oss_.str(); }
 
         private:

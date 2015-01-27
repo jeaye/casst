@@ -3,7 +3,8 @@ OUT_DIR = bin/
 SOURCES = test/src/create/keyspace.cpp \
           test/src/create/table.cpp \
           test/src/delete/delete.cpp \
-          test/src/select/select.cpp
+          test/src/select/select.cpp \
+          test/src/update/update.cpp
 OBJECTS = ${SOURCES:.cpp=.cpp.o}
 TEST_OBJECTS = $(SOURCES:.cpp=.test)
 

@@ -1,5 +1,11 @@
-list positions
-  foo[3]
+lists
+  json
+  positions
+    foo[3]
+SELECT
+  ORDER BY
+UPDATE
+INSERT
 
 -------------------------------------------------------------------------------
 
