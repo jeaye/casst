@@ -9,6 +9,7 @@
 
 namespace casst
 {
+  /* TODO: Tests for each of these operators. */
   namespace detail
   {
     using sigil = char const* (*)();

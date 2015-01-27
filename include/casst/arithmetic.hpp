@@ -5,6 +5,7 @@
 
 namespace casst
 {
+  /* TODO: Tests just for these operators. */
   namespace detail
   {
     char constexpr const* sum()

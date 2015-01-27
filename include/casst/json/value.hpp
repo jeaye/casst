@@ -4,6 +4,7 @@
 
 namespace casst
 {
+  /* TODO: Tests just for json objects. */
   namespace json
   {
     struct value
