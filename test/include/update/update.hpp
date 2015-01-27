@@ -171,4 +171,46 @@ namespace jest
                  "UPDATE foo SET weapons = [ 'good looks', 'rail gun' ] "
                  "IF alive = true ");
   }
+
+  template <> template <>
+  void casst::update_group::test<9>() /* collection subtraction */
+  {
+    expect_equal
+    (
+      casst::update("users").set
+      (
+        casst::equal
+        (
+          "emails",
+          casst::diff("emails", casst::json::set{ "fb@friendsofmordor.org" })
+        )
+      ).where(casst::equal("user_id", "frodo")).to_string(),
+
+      "UPDATE users SET emails = emails - { 'fb@friendsofmordor.org' } "
+      "WHERE user_id = 'frodo' "
+    );
+  }
+
+  template <> template <>
+  void casst::update_group::test<10>() /* collection addition */
+  {
+    expect_equal
+    (
+      casst::update("users").set
+      (
+        casst::equal
+        (
+          "emails",
+          casst::sum
+          (
+            casst::json::list{ "fb@friendsofmordor.org" },
+            casst::column("emails")
+          )
+        )
+      ).where(casst::equal("user_id", "frodo")).to_string(),
+
+      "UPDATE users SET emails = [ 'fb@friendsofmordor.org' ] + emails "
+      "WHERE user_id = 'frodo' "
+    );
+  }
 }

@@ -1,5 +1,4 @@
 lists
-  json
   positions
     foo[3]
 SELECT
