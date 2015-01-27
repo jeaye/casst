@@ -24,19 +24,29 @@ namespace jest
   template <> template <>
   void casst::create_table_group::test<1>() /* column */
   {
-    std::string const str{ casst::create::table("table").
-                            columns(casst::text("name")).
-                              primary_key("name").to_string() };
-    expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( name ) )");
+    expect_equal
+    (
+      casst::create::table("table").
+        columns(casst::text("name")).
+        primary_key("name").
+        to_string(),
+
+      "CREATE TABLE table ( name text, PRIMARY KEY ( name ) )"
+    );
   }
 
   template <> template <>
   void casst::create_table_group::test<2>() /* column if_not_exists */
   {
-    std::string const str{ casst::create::table_if_not_exists("table").
-                            columns(casst::text("name")).
-                              primary_key("name").to_string() };
-    expect_equal(str, "CREATE TABLE IF NOT EXISTS table ( name text, PRIMARY KEY ( name ) )");
+    expect_equal
+    (
+      casst::create::table_if_not_exists("table").
+        columns(casst::text("name")).
+        primary_key("name").
+        to_string(),
+
+      "CREATE TABLE IF NOT EXISTS table ( name text, PRIMARY KEY ( name ) )"
+    );
   }
 
   template <> template <>
@@ -45,19 +55,30 @@ namespace jest
     auto const test([](auto const func)
     {
       auto const pair(func("name"));
-      std::string const str{ casst::create::table("table").
-                              columns(func("name")).
-                                primary_key("name").to_string() };
-      expect_equal(str, "CREATE TABLE table ( name " + pair.second + ", PRIMARY KEY ( " + pair.first + " ) )");
+      expect_equal
+      (
+        casst::create::table("table").
+          columns(func("name")).
+          primary_key("name").
+          to_string(),
+
+        "CREATE TABLE table ( name " + pair.second + ", "
+        "PRIMARY KEY ( " + pair.first + " ) )"
+      );
     });
     auto const test_if_not_exists([](auto const func)
     {
       auto const pair(func("name"));
-      std::string const str{ casst::create::table_if_not_exists("table").
-                              columns(func("name")).
-                                primary_key("name").to_string() };
-      expect_equal(str, "CREATE TABLE IF NOT EXISTS table ( name " +
-                   pair.second + ", PRIMARY KEY ( " + pair.first + " ) )");
+      expect_equal
+      (
+        casst::create::table_if_not_exists("table").
+          columns(func("name")).
+          primary_key("name").
+          to_string(),
+
+        "CREATE TABLE IF NOT EXISTS table ( name " +
+        pair.second + ", PRIMARY KEY ( " + pair.first + " ) )"
+      );
     });
 
     test(&casst::ascii); test_if_not_exists(&casst::ascii);
@@ -84,19 +105,30 @@ namespace jest
     auto const test([](auto const func, std::string const &type)
     {
       auto const pair(func("name"));
-      std::string const str{ casst::create::table("table").
-                              columns(func("name")).
-                                primary_key("name").to_string() };
-      expect_equal(str, "CREATE TABLE table ( name " + type + ", PRIMARY KEY ( " + pair.first + " ) )");
+      expect_equal
+      (
+        casst::create::table("table").
+          columns(func("name")).
+          primary_key("name").
+          to_string(),
+
+        "CREATE TABLE table ( name " + type + ", "
+        "PRIMARY KEY ( " + pair.first + " ) )"
+      );
     });
     auto const test_if_not_exists([](auto const func, std::string const &type)
     {
       auto const pair(func("name"));
-      std::string const str{ casst::create::table_if_not_exists("table").
-                              columns(func("name")).
-                                primary_key("name").to_string() };
-      expect_equal(str, "CREATE TABLE IF NOT EXISTS table ( name " +
-                   type + ", PRIMARY KEY ( " + pair.first + " ) )");
+      expect_equal
+      (
+        casst::create::table_if_not_exists("table").
+          columns(func("name")).
+          primary_key("name").
+          to_string(),
+
+        "CREATE TABLE IF NOT EXISTS table ( name " +
+        type + ", PRIMARY KEY ( " + pair.first + " ) )"
+      );
     });
 
     test(&casst::set<casst::text>, "set< text >");
@@ -110,64 +142,94 @@ namespace jest
     test(&casst::map<casst::text, casst::text>, "map< text, text >");
     test_if_not_exists(&casst::map<casst::text, casst::text>, "map< text, text >");
     test(&casst::map<casst::timeuuid, casst::bigint>, "map< timeuuid, bigint >");
-    test_if_not_exists(&casst::map<casst::timeuuid, casst::bigint>, "map< timeuuid, bigint >");
+    test_if_not_exists(&casst::map<casst::timeuuid, casst::bigint>,
+                       "map< timeuuid, bigint >");
 
     test(&casst::tuple<casst::_float>, "tuple< float >");
     test_if_not_exists(&casst::tuple<casst::_float>, "tuple< float >");
     test(&casst::tuple<casst::_float, casst::blob, casst::set<casst::text>>,
          "tuple< float, blob, set< text > >");
-    test_if_not_exists(&casst::tuple<casst::_float, casst::blob, casst::set<casst::text>>,
+    test_if_not_exists(&casst::tuple<casst::_float, casst::blob,
+                                     casst::set<casst::text>>,
                        "tuple< float, blob, set< text > >");
 
     test(&casst::frozen<casst::text>, "frozen< text >");
     test_if_not_exists(&casst::frozen<casst::text>, "frozen< text >");
     test(&casst::frozen<casst::tuple<casst::inet>>, "frozen< tuple< inet > >");
-    test_if_not_exists(&casst::frozen<casst::tuple<casst::inet>>, "frozen< tuple< inet > >");
-    test(&casst::frozen<casst::tuple<casst::blob, casst::inet>>, "frozen< tuple< blob, inet > >");
-    test_if_not_exists(&casst::frozen<casst::tuple<casst::blob, casst::inet>>, "frozen< tuple< blob, inet > >");
+    test_if_not_exists(&casst::frozen<casst::tuple<casst::inet>>,
+                       "frozen< tuple< inet > >");
+    test(&casst::frozen<casst::tuple<casst::blob, casst::inet>>,
+         "frozen< tuple< blob, inet > >");
+    test_if_not_exists(&casst::frozen<casst::tuple<casst::blob, casst::inet>>,
+                       "frozen< tuple< blob, inet > >");
     test(&casst::frozen<casst::tuple<casst::varint, casst::blob, casst::inet>>,
          "frozen< tuple< varint, blob, inet > >");
-    test_if_not_exists(&casst::frozen<casst::tuple<casst::varint, casst::blob, casst::inet>>,
+    test_if_not_exists(&casst::frozen<casst::tuple<casst::varint,
+                                                   casst::blob, casst::inet>>,
                        "frozen< tuple< varint, blob, inet > >");
-    test(&casst::frozen<casst::tuple<casst::text, casst::tuple<casst::_int, casst::uuid>>>,
+    test(&casst::frozen<casst::tuple<casst::text, casst::tuple<casst::_int,
+                                                               casst::uuid>>>,
          "frozen< tuple< text, tuple< int, uuid > > >");
-    test_if_not_exists(&casst::frozen<casst::tuple<casst::text, casst::tuple<casst::_int, casst::uuid>>>,
+    test_if_not_exists(&casst::frozen<casst::tuple<casst::text,
+                                                   casst::tuple<casst::_int,
+                                                                casst::uuid>>>,
                        "frozen< tuple< text, tuple< int, uuid > > >");
   }
 
   template <> template <>
   void casst::create_table_group::test<5>() /* composite */
   {
-    std::string const str{ casst::create::table("table").
-                            columns(casst::text("name")).
-                              primary_key(casst::create::composite("name", "age")).to_string() };
-    expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( ( name, age ) )");
+    expect_equal
+    (
+      casst::create::table("table").
+        columns(casst::text("name")).
+        primary_key(casst::create::composite("name", "age")).
+        to_string(),
+
+      "CREATE TABLE table ( name text, PRIMARY KEY ( ( name, age ) )"
+    );
   }
 
   template <> template <>
   void casst::create_table_group::test<6>() /* composite if_not_exists */
   {
-    std::string const str{ casst::create::table_if_not_exists("table").
-                            columns(casst::text("name")).
-                              primary_key(casst::create::composite("name", "age")).to_string() };
-    expect_equal(str, "CREATE TABLE IF NOT EXISTS table ( name text, PRIMARY KEY ( ( name, age ) )");
+    expect_equal
+    (
+      casst::create::table_if_not_exists("table").
+        columns(casst::text("name")).
+        primary_key(casst::create::composite("name", "age")).
+        to_string(),
+
+      "CREATE TABLE IF NOT EXISTS table ( name text, PRIMARY KEY ( ( name, age ) )"
+    );
   }
 
   template <> template <>
   void casst::create_table_group::test<7>() /* composite and more */
   {
-    std::string const str{ casst::create::table("table").
-                            columns(casst::text("name")).
-                              primary_key(casst::create::composite("name", "age"), "location").to_string() };
-    expect_equal(str, "CREATE TABLE table ( name text, PRIMARY KEY ( ( name, age ), location ) )");
+    expect_equal
+    (
+      casst::create::table("table").
+        columns(casst::text("name")).
+        primary_key(casst::create::composite("name", "age"), "location").
+        to_string(),
+
+      "CREATE TABLE table ( name text, PRIMARY KEY ( ( name, age ), location ) )"
+    );
   }
 
   template <> template <>
   void casst::create_table_group::test<8>() /* composite if_not_exists and more */
   {
-    std::string const str{ casst::create::table_if_not_exists("table").
-                            columns(casst::text("name")).
-                              primary_key(casst::create::composite("name", "age"), "location").to_string() };
-    expect_equal(str, "CREATE TABLE IF NOT EXISTS table ( name text, PRIMARY KEY ( ( name, age ), location ) )");
+    expect_equal
+    (
+      casst::create::table_if_not_exists("table").
+        columns(casst::text("name")).
+        primary_key(casst::create::composite("name", "age"), "location").
+        to_string(),
+
+      "CREATE TABLE IF NOT EXISTS table ( name text, "
+      "PRIMARY KEY ( ( name, age ), location ) )"
+    );
   }
 }
