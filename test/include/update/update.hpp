@@ -40,6 +40,10 @@ namespace jest
   void casst::update_group::test<2>() /* set */
   {
     expect_equal(casst::update("foo").
+                  set(casst::equal("alive", true)).
+                  to_string(),
+                 "UPDATE foo SET alive = true  ");
+    expect_equal(casst::update("foo").
                   using_(casst::option::ttl(0)).
                   set
                   (
@@ -48,5 +52,26 @@ namespace jest
                   ).
                   to_string(),
                  "UPDATE foo USING TTL 0 SET foo = foo + 2, bar = 'spam'  ");
+  }
+
+  template <> template <>
+  void casst::update_group::test<3>() /* where */
+  {
+    expect_equal(casst::update("foo").
+                  set(casst::equal("alive", true)).
+                  where(casst::equal("alive", false)).
+                  to_string(),
+                 "UPDATE foo SET alive = true WHERE alive = false ");
+    expect_equal(casst::update("foo").
+                  set(casst::equal("alive", true)).
+                  where
+                  (
+                    casst::equal("alive", false),
+                    casst::and_(),
+                    casst::not_equal("name", "simba")
+                  ).
+                  to_string(),
+                 "UPDATE foo SET alive = true WHERE alive = false "
+                 "AND name <> 'simba' ");
   }
 }

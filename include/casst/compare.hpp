@@ -13,6 +13,9 @@ namespace casst
   {
     using sigil = char const* (*)();
 
+    /* TODO: Each of these could be a template with static assertions
+     * for type compatibility. Requires a number of traits, but we should
+     * add it later, since we can benefit from it. */
     char constexpr const* equal()
     { return " = "; }
     char constexpr const* not_equal()

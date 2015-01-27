@@ -12,11 +12,39 @@ namespace casst
     {
       enum class step
       {
-        base
+        base,
+        set
       };
 
       template <step S>
       class update;
+
+      template <>
+      class update<step::set>
+      {
+        public:
+          update() = delete;
+          update(std::ostringstream &&oss)
+            : oss_{ std::move(oss) }
+          { }
+
+          template <typename... Args>
+          update& where(Args &&...args)
+          {
+            oss_ << "WHERE ";
+            int const _[]
+            { (oss_ << args << " ", 0)... };
+            static_cast<void>(_);
+
+            return *this;
+          }
+
+          std::string to_string() const
+          { return oss_.str(); }
+
+        private:
+          std::ostringstream oss_;
+      };
 
       template <>
       class update<step::base>
@@ -36,15 +64,17 @@ namespace casst
             return *this;
           }
 
+          /* TODO: Update collection sets. */
           template <typename... Args>
-          update& set(Args &&...args)
+          update<step::set> set(Args &&...args)
           {
             oss_ << "SET ";
             int const _[]
             { (oss_ << args << ", ", 0)... };
             static_cast<void>(_);
             oss_.seekp(-2, std::ios_base::end); oss_ << " ";
-            return *this;
+
+            return { std::move(oss_) };
           }
 
           std::string to_string() const
