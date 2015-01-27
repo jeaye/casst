@@ -6,24 +6,12 @@
 #include <iterator>
 #include <sstream>
 
-#include <casst/detail/render.hpp>
+#include <casst/json/value.hpp>
 
 namespace casst
 {
   namespace json
   {
-    struct value
-    {
-      value() = delete;
-
-      template <typename T>
-      value(T const &t)
-        : data{ detail::to_rvalue(t) }
-      { }
-
-      std::string data;
-    };
-
     class map
     {
       public:
@@ -36,9 +24,12 @@ namespace casst
         friend std::ostream& operator <<(std::ostream &os, map const &m)
         {
           os << "{ ";
+
           for(auto const &v : m.map_)
           { os << "\'" << v.first << "\': " << v.second.data << ", "; }
-          os.seekp(-2, std::ios_base::end);
+          if(m.map_.size())
+          { os.seekp(-2, std::ios_base::end); }
+
           return os << " }";
         }
 

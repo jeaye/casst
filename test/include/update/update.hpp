@@ -6,6 +6,9 @@
 #include <casst/compare.hpp>
 #include <casst/arithmetic.hpp>
 #include <casst/row.hpp>
+#include <casst/json/map.hpp>
+#include <casst/json/set.hpp>
+#include <casst/json/list.hpp>
 
 namespace casst
 {
@@ -110,5 +113,62 @@ namespace jest
                   to_string(),
                  "UPDATE foo SET alive = true IF alive = false "
                  "AND name <> 'simba' ");
+  }
+
+  template <> template <>
+  void casst::update_group::test<6>() /* map */
+  {
+    expect_equal(casst::update("foo").
+                  set(casst::equal
+                  (
+                    "inventory",
+                    casst::json::map
+                    {
+                      { "weapon", "luck" },
+                      { "coins", 0 },
+                    }
+                  )).
+                  if_(casst::equal("alive", true)).
+                  to_string(),
+                 "UPDATE foo SET inventory = { 'coins': 0, 'weapon': 'luck' } "
+                 "IF alive = true ");
+  }
+
+  template <> template <>
+  void casst::update_group::test<7>() /* set */
+  {
+    expect_equal(casst::update("foo").
+                  set(casst::equal
+                  (
+                    "weapons",
+                    casst::json::set
+                    {
+                      "good looks",
+                      "rail gun",
+                    }
+                  )).
+                  if_(casst::equal("alive", true)).
+                  to_string(),
+                 "UPDATE foo SET weapons = { 'good looks', 'rail gun' } "
+                 "IF alive = true ");
+  }
+
+  template <> template <>
+  void casst::update_group::test<8>() /* list */
+  {
+    expect_equal(casst::update("foo").
+                  set(casst::equal
+                  (
+                    "weapons",
+                    casst::json::list
+                    {
+                      "good looks",
+                      "rail gun",
+                    }
+                  )).
+                  if_(casst::equal("alive", true)).
+                  to_string(),
+                 "UPDATE foo SET weapons = [ 'good looks', 'rail gun' ] "
+                 "IF alive = true ");
   }
 }
