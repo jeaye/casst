@@ -21,7 +21,7 @@ namespace casst
       template <typename... Args>
       auto& in(Args &&...args)
       {
-        int const _[]{ (in_.emplace_back(std::forward<Args>(args)), 0)... };
+        int const _[]{ (in_.emplace_back(detail::to_rvalue(args)), 0)... };
         static_cast<void>(_);
         return *this;
       }
@@ -37,7 +37,7 @@ namespace casst
       {
         os << "IN ( ";
         for(auto const &in : r.in_)
-        { os << detail::to_rvalue(in) + ", "; }
+        { os << in + ", "; }
         os.seekp(-2, std::ios_base::end);
         os << " ) ";
       }

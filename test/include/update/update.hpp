@@ -5,6 +5,7 @@
 #include <casst/update/update.hpp>
 #include <casst/compare.hpp>
 #include <casst/arithmetic.hpp>
+#include <casst/row.hpp>
 
 namespace casst
 {
@@ -73,5 +74,20 @@ namespace jest
                   to_string(),
                  "UPDATE foo SET alive = true WHERE alive = false "
                  "AND name <> 'simba' ");
+  }
+
+  template <> template <>
+  void casst::update_group::test<4>() /* in */
+  {
+    expect_equal(casst::update("foo").
+                  set(casst::equal("alive", true)).
+                  where(casst::row("name").in("user1", "user2")).
+                  to_string(),
+                 "UPDATE foo SET alive = true WHERE name IN ( 'user1', 'user2' )  ");
+    expect_equal(casst::update("foo").
+                  set(casst::equal("alive", true)).
+                  where(casst::row("age").in(42, 37, 10)).
+                  to_string(),
+                 "UPDATE foo SET alive = true WHERE age IN ( 42, 37, 10 )  ");
   }
 }
