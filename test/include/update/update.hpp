@@ -43,133 +43,172 @@ namespace jest
   template <> template <>
   void casst::update_group::test<2>() /* set */
   {
-    expect_equal(casst::update("foo").
-                  set(casst::equal("alive", true)).
-                  to_string(),
-                 "UPDATE foo SET alive = true  ");
-    expect_equal(casst::update("foo").
-                  using_(casst::option::ttl(0)).
-                  set
-                  (
-                    casst::equal("foo", casst::sum("foo", 2)),
-                    casst::equal("bar", "spam")
-                  ).
-                  to_string(),
-                 "UPDATE foo USING TTL 0 SET foo = foo + 2, bar = 'spam'  ");
+    expect_equal
+    (
+      casst::update("foo").set(casst::equal("alive", true)).to_string(),
+
+      "UPDATE foo SET alive = true  "
+    );
+    expect_equal
+    (
+      casst::update("foo").using_(casst::option::ttl(0)).
+        set
+        (
+          casst::equal("foo", casst::sum("foo", 2)),
+          casst::equal("bar", "spam")
+        ).
+        to_string(),
+
+      "UPDATE foo USING TTL 0 SET foo = foo + 2, bar = 'spam'  "
+    );
   }
 
   template <> template <>
   void casst::update_group::test<3>() /* where */
   {
-    expect_equal(casst::update("foo").
-                  set(casst::equal("alive", true)).
-                  where(casst::equal("alive", false)).
-                  to_string(),
-                 "UPDATE foo SET alive = true WHERE alive = false ");
-    expect_equal(casst::update("foo").
-                  set(casst::equal("alive", true)).
-                  where
-                  (
-                    casst::equal("alive", false),
-                    casst::and_(),
-                    casst::not_equal("name", "simba")
-                  ).
-                  to_string(),
-                 "UPDATE foo SET alive = true WHERE alive = false "
-                 "AND name <> 'simba' ");
+    expect_equal
+    (
+      casst::update("foo").
+        set(casst::equal("alive", true)).
+        where(casst::equal("alive", false)).
+        to_string(),
+
+      "UPDATE foo SET alive = true WHERE alive = false "
+    );
+    expect_equal
+    (
+      casst::update("foo").
+        set(casst::equal("alive", true)).
+        where
+        (
+          casst::equal("alive", false),
+          casst::and_(),
+          casst::not_equal("name", "simba")
+        ).
+        to_string(),
+
+     "UPDATE foo SET alive = true WHERE alive = false AND name <> 'simba' "
+    );
   }
 
   template <> template <>
   void casst::update_group::test<4>() /* in */
   {
-    expect_equal(casst::update("foo").
-                  set(casst::equal("alive", true)).
-                  where(casst::row("name").in("user1", "user2")).
-                  to_string(),
-                 "UPDATE foo SET alive = true WHERE name IN ( 'user1', 'user2' )  ");
-    expect_equal(casst::update("foo").
-                  set(casst::equal("alive", true)).
-                  where(casst::row("age").in(42, 37, 10)).
-                  to_string(),
-                 "UPDATE foo SET alive = true WHERE age IN ( 42, 37, 10 )  ");
+    expect_equal
+    (
+      casst::update("foo").
+        set(casst::equal("alive", true)).
+        where(casst::row("name").in("user1", "user2")).
+        to_string(),
+
+     "UPDATE foo SET alive = true WHERE name IN ( 'user1', 'user2' )  "
+    );
+    expect_equal
+    (
+      casst::update("foo").
+        set(casst::equal("alive", true)).
+        where(casst::row("age").in(42, 37, 10)).
+        to_string(),
+
+     "UPDATE foo SET alive = true WHERE age IN ( 42, 37, 10 )  "
+    );
   }
 
   template <> template <>
   void casst::update_group::test<5>() /* if */
   {
-    expect_equal(casst::update("foo").
-                  set(casst::equal("alive", true)).
-                  if_(casst::equal("alive", false)).
-                  to_string(),
-                 "UPDATE foo SET alive = true IF alive = false ");
-    expect_equal(casst::update("foo").
-                  set(casst::equal("alive", true)).
-                  if_
-                  (
-                    casst::equal("alive", false),
-                    casst::and_(),
-                    casst::not_equal("name", "simba")
-                  ).
-                  to_string(),
-                 "UPDATE foo SET alive = true IF alive = false "
-                 "AND name <> 'simba' ");
+    expect_equal
+    (
+      casst::update("foo").
+        set(casst::equal("alive", true)).
+        if_(casst::equal("alive", false)).
+        to_string(),
+
+     "UPDATE foo SET alive = true IF alive = false "
+    );
+    expect_equal
+    (
+      casst::update("foo").
+        set(casst::equal("alive", true)).
+        if_
+        (
+          casst::equal("alive", false),
+          casst::and_(),
+          casst::not_equal("name", "simba")
+        ).
+        to_string(),
+
+      "UPDATE foo SET alive = true IF alive = false AND name <> 'simba' "
+    );
   }
 
   template <> template <>
   void casst::update_group::test<6>() /* map */
   {
-    expect_equal(casst::update("foo").
-                  set(casst::equal
-                  (
-                    "inventory",
-                    casst::json::map
-                    {
-                      { "weapon", "luck" },
-                      { "coins", 0 },
-                    }
-                  )).
-                  if_(casst::equal("alive", true)).
-                  to_string(),
-                 "UPDATE foo SET inventory = { 'coins': 0, 'weapon': 'luck' } "
-                 "IF alive = true ");
+    expect_equal
+    (
+      casst::update("foo").
+        set(casst::equal
+        (
+          "inventory",
+          casst::json::map
+          {
+            { "weapon", "luck" },
+            { "coins", 0 },
+          }
+        )).
+        if_(casst::equal("alive", true)).
+        to_string(),
+
+     "UPDATE foo SET inventory = { 'coins': 0, 'weapon': 'luck' } "
+     "IF alive = true "
+    );
   }
 
   template <> template <>
   void casst::update_group::test<7>() /* set */
   {
-    expect_equal(casst::update("foo").
-                  set(casst::equal
-                  (
-                    "weapons",
-                    casst::json::set
-                    {
-                      "good looks",
-                      "rail gun",
-                    }
-                  )).
-                  if_(casst::equal("alive", true)).
-                  to_string(),
-                 "UPDATE foo SET weapons = { 'good looks', 'rail gun' } "
-                 "IF alive = true ");
+    expect_equal
+    (
+      casst::update("foo").
+        set(casst::equal
+        (
+          "weapons",
+          casst::json::set
+          {
+            "good looks",
+            "rail gun",
+          }
+        )).
+        if_(casst::equal("alive", true)).
+        to_string(),
+
+     "UPDATE foo SET weapons = { 'good looks', 'rail gun' } "
+     "IF alive = true "
+    );
   }
 
   template <> template <>
   void casst::update_group::test<8>() /* list */
   {
-    expect_equal(casst::update("foo").
-                  set(casst::equal
-                  (
-                    "weapons",
-                    casst::json::list
-                    {
-                      "good looks",
-                      "rail gun",
-                    }
-                  )).
-                  if_(casst::equal("alive", true)).
-                  to_string(),
-                 "UPDATE foo SET weapons = [ 'good looks', 'rail gun' ] "
-                 "IF alive = true ");
+    expect_equal
+    (
+      casst::update("foo").
+        set(casst::equal
+        (
+          "weapons",
+          casst::json::list
+          {
+            "good looks",
+            "rail gun",
+          }
+        )).
+        if_(casst::equal("alive", true)).
+        to_string(),
+
+     "UPDATE foo SET weapons = [ 'good looks', 'rail gun' ] "
+     "IF alive = true "
+    );
   }
 
   template <> template <>
