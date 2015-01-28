@@ -2,6 +2,7 @@
 
 #include <casst/datatypes.hpp>
 #include <casst/json/map.hpp>
+#include <casst/detail/types.hpp>
 
 #include <sstream>
 
@@ -37,7 +38,7 @@ namespace casst
       class keyspace<steps::with_replication>
       {
         public:
-          keyspace(std::ostringstream &&oss, simple_strategy const,
+          keyspace(ostringstream &&oss, simple_strategy const,
                    replication_factor const rf)
             : oss_{ std::move(oss) }
           {
@@ -51,7 +52,7 @@ namespace casst
           }
 
           template <typename... DBs>
-          keyspace(std::ostringstream &&oss, network_topology_strategy const,
+          keyspace(ostringstream &&oss, network_topology_strategy const,
                    DBs &&...dbs)
             : oss_{ std::move(oss) }
           {
@@ -75,7 +76,7 @@ namespace casst
 
         private:
           json::map map_;
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
 
       template <>
@@ -95,7 +96,7 @@ namespace casst
                           std::is_same<Strategy, network_topology_strategy>::value,
                           "invalid replication strategy");
 
-            std::ostringstream oss;
+            ostringstream oss;
             oss << "CREATE KEYSPACE " << policy_ << name_ << " ";
             return { std::move(oss), Strategy{}, std::forward<Args>(args)... };
           }

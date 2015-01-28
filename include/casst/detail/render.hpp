@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include <casst/column.hpp>
+#include <casst/detail/types.hpp>
 
 namespace casst
 {

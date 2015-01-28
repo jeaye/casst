@@ -27,7 +27,7 @@ namespace casst
       class del<steps::from>
       {
         public:
-          del(std::ostringstream &&oss)
+          del(ostringstream &&oss)
             : oss_{ std::move(oss) }
           { }
 
@@ -62,7 +62,7 @@ namespace casst
           { return oss_.str(); }
 
         private:
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
 
       template <>
@@ -72,15 +72,15 @@ namespace casst
           del()
           { oss_ << "DELETE "; }
 
+          auto& cols()
+          { return *this; }
+
           template <typename... Args>
           auto& cols(Args &&...args)
           {
-            if(sizeof...(args))
-            {
-              int const _[]{ (oss_ << args << ", ", 0)... };
-              static_cast<void>(_);
-              oss_.seekp(-2, std::ios_base::end); oss_ << " ";
-            }
+            int const _[]{ (oss_ << args << ", ", 0)... };
+            static_cast<void>(_);
+            oss_.seekp(-2, std::ios_base::end); oss_ << " ";
             return *this;
           }
 
@@ -91,7 +91,7 @@ namespace casst
           }
 
         private:
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
     }
   }

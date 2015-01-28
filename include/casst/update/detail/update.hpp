@@ -1,6 +1,7 @@
 #pragma once
 
 #include <casst/datatypes.hpp>
+#include <casst/detail/types.hpp>
 
 #include <sstream>
 
@@ -24,7 +25,7 @@ namespace casst
       {
         public:
           update() = delete;
-          update(std::ostringstream &&oss)
+          update(ostringstream &&oss)
             : oss_{ std::move(oss) }
           { }
 
@@ -56,7 +57,7 @@ namespace casst
             return *this;
           }
 
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
 
       template <>
@@ -93,7 +94,7 @@ namespace casst
           { return oss_.str(); }
 
         private:
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
     }
   }

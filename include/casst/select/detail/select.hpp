@@ -3,6 +3,7 @@
 #include <casst/datatypes.hpp>
 #include <casst/json/map.hpp>
 #include <casst/select/order_by.hpp>
+#include <casst/detail/types.hpp>
 
 #include <sstream>
 
@@ -27,7 +28,7 @@ namespace casst
         public:
           select() = delete;
 
-          select(std::ostringstream &&oss)
+          select(ostringstream &&oss)
             : oss_{ std::move(oss) }
           { }
 
@@ -66,7 +67,7 @@ namespace casst
           { return oss_.str(); }
 
         private:
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
 
       template <>
@@ -77,7 +78,7 @@ namespace casst
 
           /* TODO: Support the rest of the functions. (blob, timeuuid, etc) */
           template <typename... Args>
-          select(std::ostringstream &&oss, Args &&...args)
+          select(ostringstream &&oss, Args &&...args)
             : oss_{ std::move(oss) }
           {
             int const _[]
@@ -95,7 +96,7 @@ namespace casst
           }
 
         private:
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
     }
   }

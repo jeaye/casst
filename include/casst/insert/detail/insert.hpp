@@ -25,7 +25,7 @@ namespace casst
       {
         public:
           insert() = delete;
-          insert(std::ostringstream &&oss)
+          insert(ostringstream &&oss)
             : oss_{ std::move(oss) }
           { }
 
@@ -49,7 +49,7 @@ namespace casst
           { return oss_.str(); }
 
         private:
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
 
       template <>
@@ -75,7 +75,7 @@ namespace casst
           }
 
         private:
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
     }
   }

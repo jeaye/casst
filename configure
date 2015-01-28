@@ -49,7 +49,6 @@ ld_platform_libs=
 if [ "1" -eq "$uname_linux" ];
 then
   log "Platform: Linux"
-  ld_platform_libs="-lc++abi"
 elif [ "1" -eq "$uname_osx" ];
 then
   log "Platform: OS X"

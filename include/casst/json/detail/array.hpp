@@ -31,21 +31,24 @@ namespace casst
           }
 
           template <typename T>
-          friend std::ostream& operator <<(std::ostream &os, array<T> const &m)
-          {
-            os << delim_begin<T>();
-
-            for(auto const &v : m.data_)
-            { os << v << ", "; }
-            if(m.data_.size())
-            { os.seekp(-2, std::ios_base::end); }
-
-            return os << delim_end<T>();
-          }
+          friend std::ostream& operator <<(std::ostream &os, array<T> const &m);
 
         private:
           std::vector<std::string> data_;
       };
+
+      template <typename T>
+      std::ostream& operator <<(std::ostream &os, array<T> const &m)
+      {
+        os << delim_begin<T>();
+
+        for(auto const &v : m.data_)
+        { os << v << ", "; }
+        if(m.data_.size())
+        { os.seekp(-2, std::ios_base::end); }
+
+        return os << delim_end<T>();
+      }
     }
   }
 }

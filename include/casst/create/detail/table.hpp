@@ -1,6 +1,7 @@
 #pragma once
 
 #include <casst/datatypes.hpp>
+#include <casst/detail/types.hpp>
 
 #include <sstream>
 
@@ -30,7 +31,7 @@ namespace casst
       {
         public:
           template <typename... Args>
-          table(std::ostringstream &&oss, std::string const &first, Args &&...args)
+          table(ostringstream &&oss, std::string const &first, Args &&...args)
             : oss_{ std::move(oss) }
           {
             oss_ << "PRIMARY KEY ( " << first << ", ";
@@ -38,7 +39,7 @@ namespace casst
           }
 
           template <std::size_t N, typename... Args>
-          table(std::ostringstream &&oss, composite<N> const &comp, Args &&...args)
+          table(ostringstream &&oss, composite<N> const &comp, Args &&...args)
             : oss_{ std::move(oss) }
           {
             oss_ << "PRIMARY KEY ( ( ";
@@ -62,12 +63,15 @@ namespace casst
           {
             int const _[]{ (oss_ << args << ", ", 0)... };
             static_cast<void>(_);
-
+            write();
+          }
+          void write()
+          {
             oss_.seekp(-2, std::ios_base::end);
             oss_ << " ) )";
           }
 
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
 
       template <>
@@ -75,7 +79,7 @@ namespace casst
       {
         public:
           template <typename... Args>
-          table(std::ostringstream &&oss, Args &&...args)
+          table(ostringstream &&oss, Args &&...args)
             : oss_{ std::move(oss) }
           {
             int const _[]
@@ -92,7 +96,7 @@ namespace casst
           { return { std::move(oss_), comp, std::forward<Args>(args)... }; }
 
         private:
-          std::ostringstream oss_;
+          ostringstream oss_;
       };
 
       template <>
@@ -108,7 +112,7 @@ namespace casst
           template <typename... Args>
           table<steps::columns> columns(Args &&...args)
           {
-            std::ostringstream oss;
+            ostringstream oss;
             oss << "CREATE TABLE " << policy_ << name_ << " ( ";
             return { std::move(oss), std::forward<Args>(args)... };
           }
