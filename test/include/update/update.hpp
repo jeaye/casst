@@ -106,11 +106,11 @@ namespace jest
     expect_equal
     (
       casst::update("foo").
-        set(casst::equal("alive", true)).
+        set(casst::equal("value", casst::null())).
         where(casst::row("age").in(42, 37, 10)).
         to_string(),
 
-     "UPDATE foo SET alive = true WHERE age IN ( 42, 37, 10 ) "
+     "UPDATE foo SET value = null WHERE age IN ( 42, 37, 10 ) "
     );
   }
 

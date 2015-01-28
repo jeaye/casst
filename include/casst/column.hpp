@@ -10,17 +10,10 @@ namespace casst
   namespace detail
   {
     struct column
-    {
-      column() = delete;
-      column(std::string const &name)
-        : name_{ name }
-      { }
-
-      std::string name_;
-    };
+    { std::string name; };
 
     std::ostream& operator <<(std::ostream &os, column const &c)
-    { return os << c.name_; }
+    { return os << c.name; }
   }
 
   inline auto column(std::string const &name)

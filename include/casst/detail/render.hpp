@@ -57,7 +57,7 @@ namespace casst
     { return b ? "true" : "false"; }
 
     inline std::string to_rvalue(detail::column const &column)
-    { return column.name_; }
+    { return column.name; }
 
     /* lvalues, in CQL, are unquoted names. */
     template <typename T>
@@ -71,6 +71,6 @@ namespace casst
     { return to_rvalue(b); }
 
     inline std::string to_lvalue(detail::column const &column)
-    { return column.name_; }
+    { return column.name; }
   }
 }

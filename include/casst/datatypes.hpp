@@ -1,5 +1,7 @@
 #pragma once
 
+#include <casst/column.hpp>
+
 #include <string>
 #include <sstream>
 #include <utility>
@@ -72,4 +74,6 @@ namespace casst
 
   inline char constexpr const* binding()
   { return "?"; }
+  inline detail::column null()
+  { return column("null"); }
 }
