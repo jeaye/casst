@@ -3,7 +3,6 @@
 #include <string>
 #include <sstream>
 
-#include <casst/column.hpp>
 #include <casst/detail/types.hpp>
 
 namespace casst
@@ -56,9 +55,6 @@ namespace casst
     inline std::string to_rvalue(bool const b)
     { return b ? "true" : "false"; }
 
-    inline std::string to_rvalue(detail::column const &column)
-    { return column.name; }
-
     /* lvalues, in CQL, are unquoted names. */
     template <typename T>
     std::string to_lvalue(T const &t)
@@ -69,8 +65,5 @@ namespace casst
     { return str; }
     inline std::string to_lvalue(bool const b)
     { return to_rvalue(b); }
-
-    inline std::string to_lvalue(detail::column const &column)
-    { return column.name; }
   }
 }

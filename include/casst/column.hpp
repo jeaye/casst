@@ -1,5 +1,7 @@
 #pragma once
 
+#include <casst/row_slice.hpp>
+
 #include <string>
 #include <vector>
 #include <utility>
@@ -16,8 +18,18 @@ namespace casst
     { return os << c.name; }
   }
 
+  inline std::string to_rvalue(detail::column const &column)
+  { return column.name; }
+
+  inline std::string to_lvalue(detail::column const &column)
+  { return column.name; }
+
   inline auto column(std::string const &name)
   { return detail::column{ name }; }
+
+  template <typename... Args>
+  auto columns(Args &&...args)
+  { return row_slice(casst::column(std::forward<Args>(args))...); }
 
   inline auto all()
   { return detail::column{ "*" }; }
