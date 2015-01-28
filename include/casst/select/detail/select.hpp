@@ -42,7 +42,7 @@ namespace casst
             return *this;
           }
 
-          template <order_by O>
+          template <order_by O = order_by::asc>
           select& order_by(std::string const &col)
           {
             oss_ << "ORDER BY " << col << " "
