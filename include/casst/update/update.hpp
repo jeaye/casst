@@ -1,7 +1,7 @@
 #pragma once
 
 #include <casst/update/detail/update.hpp>
-#include <casst/update/option.hpp>
+#include <casst/option.hpp>
 
 namespace casst
 {

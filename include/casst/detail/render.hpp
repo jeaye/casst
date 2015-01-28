@@ -35,14 +35,25 @@ namespace casst
                                             rvalue_renderer<std::string> const &str)
     { return os << "'" << str.data << "'"; }
 
+    template <typename T>
+    std::string to_string(T const &t)
+    {
+      static std::ostringstream oss;
+      oss.clear(); oss.str("");
+      oss << t;
+      return oss.str();
+    }
+
     /* rvalues, in CQL, are quoted or literal values. */
     template <typename T>
     std::string to_rvalue(T const &t)
-    { return std::to_string(t); }
+    { return to_string(t); }
     inline std::string to_rvalue(std::string const &str)
     { return "'" + str + "'"; }
     inline std::string to_rvalue(char const * const str)
     { return to_rvalue(std::string{ str }); }
+    inline std::string to_rvalue(bool const b)
+    { return b ? "true" : "false"; }
 
     inline std::string to_rvalue(detail::column const &column)
     { return column.name_; }
@@ -50,11 +61,13 @@ namespace casst
     /* lvalues, in CQL, are unquoted names. */
     template <typename T>
     std::string to_lvalue(T const &t)
-    { return std::to_string(t); }
+    { return to_string(t); }
     inline std::string to_lvalue(std::string const &str)
     { return str; }
     inline std::string to_lvalue(char const * const str)
     { return str; }
+    inline std::string to_lvalue(bool const b)
+    { return to_rvalue(b); }
 
     inline std::string to_lvalue(detail::column const &column)
     { return column.name_; }
