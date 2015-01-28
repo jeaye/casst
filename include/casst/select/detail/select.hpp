@@ -2,6 +2,7 @@
 
 #include <casst/datatypes.hpp>
 #include <casst/json/map.hpp>
+#include <casst/select/order_by.hpp>
 
 #include <sstream>
 
@@ -38,6 +39,14 @@ namespace casst
             { (oss_ << args << " ", 0)... };
             static_cast<void>(_);
 
+            return *this;
+          }
+
+          template <order_by O>
+          select& order_by(std::string const &col)
+          {
+            oss_ << "ORDER BY " << col << " "
+                 << detail::order_by_string<O>() << " ";
             return *this;
           }
 

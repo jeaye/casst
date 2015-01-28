@@ -277,4 +277,32 @@ namespace jest
       "WHERE venue CONTAINS KEY '2014-09-22 22:00:00-0700' "
     );
   }
+
+  template <> template <>
+  void casst::select_group::test<11>() /* order by */
+  {
+    expect_equal
+    (
+      casst::select(casst::all()).from("playlists").
+        where(casst::equal("id", "62c36092-82a1-3a00-93d1-46196ee77204")).
+        order_by<casst::order_by::desc>("song_order").
+        limit(10).
+        to_string(),
+
+      "SELECT * FROM playlists WHERE id = '62c36092-82a1-3a00-93d1-46196ee77204' "
+      "ORDER BY song_order DESC LIMIT 10 "
+    );
+
+    expect_equal
+    (
+      casst::select(casst::all()).from("playlists").
+        where(casst::equal("id", "62c36092-82a1-3a00-93d1-46196ee77204")).
+        order_by<casst::order_by::asc>("song_order").
+        limit(10).
+        to_string(),
+
+      "SELECT * FROM playlists WHERE id = '62c36092-82a1-3a00-93d1-46196ee77204' "
+      "ORDER BY song_order ASC LIMIT 10 "
+    );
+  }
 }

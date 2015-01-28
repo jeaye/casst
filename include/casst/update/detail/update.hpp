@@ -77,7 +77,6 @@ namespace casst
             return *this;
           }
 
-          /* TODO: Update collection sets. */
           template <typename... Args>
           update<step::set> set(Args &&...args)
           {
