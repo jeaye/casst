@@ -38,4 +38,8 @@ namespace casst
     return detail::row_slice<sizeof...(args)>
     { { { detail::to_rvalue(std::forward<Args>(args))...  } } };
   }
+
+  template <typename... Args>
+  auto columns(Args &&...args)
+  { return row_slice(casst::column(std::forward<Args>(args))...); }
 }

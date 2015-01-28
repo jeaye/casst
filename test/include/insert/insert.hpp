@@ -21,7 +21,7 @@ namespace jest
   {
     expect_equal
     (
-      casst::insert("users", "id", "todo").
+      casst::insert("users", casst::columns("id", "todo")).
         values(42, "meet the president").
         to_string(),
 
@@ -34,7 +34,7 @@ namespace jest
   {
     expect_equal
     (
-      casst::insert("users", "id", "todo").
+      casst::insert("users", casst::columns("id", "todo")).
         values(42, "meet the president").
         if_not_exists().
         to_string(),
@@ -49,7 +49,7 @@ namespace jest
   {
     expect_equal
     (
-      casst::insert("users", "alive").
+      casst::insert("users", casst::columns("alive")).
         values(true).
         if_not_exists().
         using_
@@ -70,7 +70,7 @@ namespace jest
   {
     expect_equal
     (
-      casst::insert("users", "alive", "emails").
+      casst::insert("users", casst::columns("alive", "emails")).
         values
         (
           true,

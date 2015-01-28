@@ -58,11 +58,11 @@ namespace casst
         public:
           insert() = delete;
 
-          template <typename... Args>
-          insert(std::string const &tab, Args &&...args)
+          template <typename T>
+          insert(std::string const &tab, T const &cols)
           {
             oss_ << "INSERT INTO " << tab << " ";
-            oss_ << casst::row_slice(column(std::forward<Args>(args))...) << " ";
+            oss_ << cols << " ";
           }
 
           template <typename... Args>
