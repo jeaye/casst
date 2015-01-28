@@ -37,10 +37,12 @@ namespace casst
             return *this;
           }
 
-          template <typename T>
-          auto& where(T &&arg)
+          template <typename... Args>
+          auto& where(Args &&...args)
           {
-            oss_ << "WHERE " << arg;
+            oss_ << "WHERE ";
+            int const _[]{ (oss_ << args << " ", 0)... };
+            static_cast<void>(_);
             return *this;
           }
 

@@ -101,7 +101,7 @@ namespace jest
         where(casst::row("name").in("user1", "user2")).
         to_string(),
 
-     "UPDATE foo SET alive = true WHERE name IN ( 'user1', 'user2' )  "
+     "UPDATE foo SET alive = true WHERE name IN ( 'user1', 'user2' ) "
     );
     expect_equal
     (
@@ -110,7 +110,7 @@ namespace jest
         where(casst::row("age").in(42, 37, 10)).
         to_string(),
 
-     "UPDATE foo SET alive = true WHERE age IN ( 42, 37, 10 )  "
+     "UPDATE foo SET alive = true WHERE age IN ( 42, 37, 10 ) "
     );
   }
 

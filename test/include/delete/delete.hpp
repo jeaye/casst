@@ -47,7 +47,7 @@ namespace jest
         where(casst::equal("alive", false)).
         to_string(),
 
-      "DELETE FROM turb WHERE alive = false"
+      "DELETE FROM turb WHERE alive = false "
     );
     expect_equal
     (
@@ -55,7 +55,7 @@ namespace jest
         where(casst::equal("age", 18)).
         to_string(),
 
-      "DELETE col1, col2, col3 FROM turb WHERE age = 18"
+      "DELETE col1, col2, col3 FROM turb WHERE age = 18 "
     );
     expect_equal
     (
@@ -63,7 +63,7 @@ namespace jest
         where(casst::equal("name", "meow")).
         to_string(),
 
-      "DELETE col1, col2, col3 FROM turb WHERE name = 'meow'"
+      "DELETE col1, col2, col3 FROM turb WHERE name = 'meow' "
     );
     expect_equal
     (
@@ -76,7 +76,7 @@ namespace jest
   }
 
   template <> template <>
-  void casst::delete_group::test<2>() /* where + and */
+  void casst::delete_group::test<2>() /* where + if */
   {
     expect_equal
     (
@@ -103,7 +103,7 @@ namespace jest
         where(casst::equal("alive", false)).
         to_string(),
 
-      "DELETE FROM people USING TIMESTAMP 476500 WHERE alive = false"
+      "DELETE FROM people USING TIMESTAMP 476500 WHERE alive = false "
     );
     expect_equal
     (
@@ -111,7 +111,7 @@ namespace jest
         where(casst::equal("alive", false)).
         to_string(),
 
-      "DELETE FROM people USING TIMESTAMP 0 WHERE alive = false"
+      "DELETE FROM people USING TIMESTAMP 0 WHERE alive = false "
     );
   }
 
@@ -162,6 +162,24 @@ namespace jest
 
       "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) "
       "IF ( name, age ) = ( 'meow', 18 ) "
+    );
+  }
+
+  template <> template <>
+  void casst::delete_group::test<6>() /* multiple items in where */
+  {
+    expect_equal
+    (
+      casst::delete_().from("people").
+        where
+        (
+          casst::row("meow").in("kitty", "cat"),
+          casst::and_(),
+          casst::equal("foo", 42)
+        ).to_string(),
+
+      "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) "
+      "AND foo = 42 "
     );
   }
 }

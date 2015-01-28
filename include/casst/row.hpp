@@ -39,7 +39,7 @@ namespace casst
         for(auto const &in : r.in_)
         { os << in + ", "; }
         os.seekp(-2, std::ios_base::end);
-        os << " ) ";
+        os << " )";
       }
       return os;
     }

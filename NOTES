@@ -1,10 +1,5 @@
-lists
-  positions
-    foo[3]
-SELECT
-  ORDER BY
-UPDATE
-INSERT
+collection indexing
+  foo[3]
 
 -------------------------------------------------------------------------------
 
