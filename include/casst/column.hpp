@@ -14,7 +14,7 @@ namespace casst
     struct column
     { std::string name; };
 
-    std::ostream& operator <<(std::ostream &os, column const &c)
+    inline std::ostream& operator <<(std::ostream &os, column const &c)
     { return os << c.name; }
   }
 
