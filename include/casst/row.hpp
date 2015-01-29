@@ -30,7 +30,7 @@ namespace casst
       std::vector<std::string> in_;
     };
 
-    std::ostream& operator <<(std::ostream &os, row const &r)
+    inline std::ostream& operator <<(std::ostream &os, row const &r)
     {
       os << r.name_ << " ";
       if(r.in_.size())
