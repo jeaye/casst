@@ -15,10 +15,10 @@ namespace casst
     class map
     {
       public:
-        using pair = std::pair<std::string const, value>;
+        using value_type = std::pair<std::string const, value>;
 
         map() = default;
-        map(std::initializer_list<pair> &&list)
+        map(std::initializer_list<value_type> &&list)
         { std::copy(list.begin(), list.end(), std::inserter(map_, map_.end())); }
 
         auto begin()
@@ -30,7 +30,7 @@ namespace casst
         auto end() const
         { return map_.end(); }
 
-        void push_back(std::pair<std::string const, value> const &p)
+        void push_back(value_type const &p)
         { map_.emplace(p); }
 
         friend std::ostream& operator <<(std::ostream &os, map const &m)

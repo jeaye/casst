@@ -23,8 +23,12 @@ namespace casst
       class array
       {
         public:
+          using value_type = value;
+          using iterator = std::vector<std::string>::iterator;
+          using const_iterator = std::vector<std::string>::const_iterator;
+
           array() = default;
-          array(std::initializer_list<value> &&list)
+          array(std::initializer_list<value_type> &&list)
           {
             std::transform(list.begin(), list.end(), std::back_inserter(data_),
                            [](auto const &v)
@@ -40,7 +44,7 @@ namespace casst
           auto end() const
           { return data_.end(); }
 
-          void push_back(value const &v)
+          void push_back(value_type const &v)
           { data_.push_back(casst::detail::to_rvalue(v)); }
 
           template <typename T>
