@@ -12,7 +12,7 @@ namespace casst
       value() = delete;
 
       template <typename T>
-      value(T const &t)
+      /* implicit */ value(T const &t)
         : data{ detail::to_rvalue(t) }
       { }
 

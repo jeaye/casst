@@ -21,6 +21,18 @@ namespace casst
         map(std::initializer_list<pair> &&list)
         { std::copy(list.begin(), list.end(), std::inserter(map_, map_.end())); }
 
+        auto begin()
+        { return map_.begin(); }
+        auto begin() const
+        { return map_.begin(); }
+        auto end()
+        { return map_.end(); }
+        auto end() const
+        { return map_.end(); }
+
+        void push_back(std::pair<std::string const, value> const &p)
+        { map_.emplace(p); }
+
         friend std::ostream& operator <<(std::ostream &os, map const &m)
         {
           os << "{ ";

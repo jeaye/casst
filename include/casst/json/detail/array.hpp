@@ -27,8 +27,21 @@ namespace casst
           array(std::initializer_list<value> &&list)
           {
             std::transform(list.begin(), list.end(), std::back_inserter(data_),
-                           [](auto const &v){ return casst::detail::to_rvalue(v); });
+                           [](auto const &v)
+                           { return casst::detail::to_rvalue(v); });
           }
+
+          auto begin()
+          { return data_.begin(); }
+          auto begin() const
+          { return data_.begin(); }
+          auto end()
+          { return data_.end(); }
+          auto end() const
+          { return data_.end(); }
+
+          void push_back(value const &v)
+          { data_.push_back(casst::detail::to_rvalue(v)); }
 
           template <typename T>
           friend std::ostream& operator <<(std::ostream &os, array<T> const &m);
