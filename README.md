@@ -23,7 +23,7 @@ casst::select("album", "tags").from("playlists").
 casst::update("foo").
   set(casst::equal("alive", true)).
   where(casst::row("name").in("user1", "user2")).
-  to_string(),
+  to_string();
 
 // gives: "UPDATE foo SET alive = true WHERE name IN ( 'user1', 'user2' ) "
 ```
@@ -42,7 +42,7 @@ casst::delete_().from("people").
       ),
       casst::row_slice("meow", 18)
     )
-  ).to_string(),
+  ).to_string();
 
 // gives: 
 // "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) "
