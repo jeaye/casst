@@ -74,6 +74,7 @@ namespace casst
           del()
           { oss_ << "DELETE "; }
 
+          /* TODO: This should just be in the ctor. */
           auto& cols()
           { return *this; }
 
