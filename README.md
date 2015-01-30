@@ -9,8 +9,8 @@ casst is a sane (header only) C++14 CQL string builder. Building complex queries
 
 NOTE: casst is currently pre-alpha, so the interface is not yet solidified and not all features have been implemented. Still, we're using it in our [XMPP server](http://www.eyeball.com/products/xmpp-server).
 
-# Examples
-## Select
+# examples
+## select
 ```cpp
 casst::select("album", "tags").from("playlists").
   where(casst::contains("tags", "blues")).
@@ -18,7 +18,7 @@ casst::select("album", "tags").from("playlists").
 
 // yields: SELECT album, tags FROM playlists WHERE tags CONTAINS 'blues'
 ```
-## Update
+## update
 ```cpp
 casst::update("foo").
   set(casst::equal("alive", true)).
@@ -27,7 +27,7 @@ casst::update("foo").
 
 // yields: UPDATE foo SET alive = true WHERE name IN ( 'user1', 'user2' )
 ```
-## Delete
+## delete
 ```cpp
 casst::delete_().from("people").
   where(casst::row("meow").in("kitty", "cat")).
@@ -49,6 +49,9 @@ casst::delete_().from("people").
 // IF ( name, age ) = ( 'meow', 18 )
 ```
 
-# License
+# documentation
+There is quite a bit of documentation here on our [wiki](https://github.com/EyeballNetworks/casst/wiki). Beyond that, consider taking a look at the [tests](https://github.com/EyeballNetworks/casst/tree/master/test/include).
+
+# license
 casst is under the MIT open-source license.  
 See the `LICENSE` file or http://opensource.org/licenses/MIT
