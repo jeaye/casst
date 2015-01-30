@@ -29,7 +29,7 @@ namespace casst
 
   template <typename... Args>
   auto columns(Args &&...args)
-  { return row_slice(casst::column(std::forward<Args>(args))...); }
+  { return row_slice(casst::column(detail::to_lvalue(std::forward<Args>(args)))...); }
 
   inline auto all()
   { return detail::column{ "*" }; }
