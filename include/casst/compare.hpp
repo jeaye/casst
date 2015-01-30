@@ -94,7 +94,7 @@ namespace casst
   namespace detail
   {
     template <typename LHS>
-    auto make_and(LHS &&lhs)
+    auto&& make_and(LHS &&lhs)
     { return std::forward<LHS>(lhs); }
 
     template <typename LHS, typename RHS, typename... Args>
