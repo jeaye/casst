@@ -14,7 +14,7 @@ namespace casst
 namespace jest
 {
   template <> template <>
-  void casst::delete_group::test<0>() /* cols */
+  void casst::delete_group::test<0>() /* basic */
   {
     expect_equal
     (
@@ -24,13 +24,7 @@ namespace jest
     );
     expect_equal
     (
-      casst::delete_().cols().from("turb").to_string(),
-
-      "DELETE FROM turb "
-    );
-    expect_equal
-    (
-      casst::delete_().cols("col1", "col2", "col3").
+      casst::delete_("col1", "col2", "col3").
         from("turb").
         to_string(),
 
@@ -51,7 +45,7 @@ namespace jest
     );
     expect_equal
     (
-      casst::delete_().cols("col1", "col2", "col3").from("turb").
+      casst::delete_("col1", "col2", "col3").from("turb").
         where(casst::equal("age", 18)).
         to_string(),
 
@@ -59,7 +53,7 @@ namespace jest
     );
     expect_equal
     (
-      casst::delete_().cols("col1", "col2", "col3").from("turb").
+      casst::delete_("col1", "col2", "col3").from("turb").
         where(casst::equal("name", "meow")).
         to_string(),
 
@@ -126,13 +120,13 @@ namespace jest
     );
     expect_equal
     (
-      casst::delete_().cols().from("turb").if_exists().to_string(),
+      casst::delete_().from("turb").if_exists().to_string(),
 
       "DELETE FROM turb IF EXISTS "
     );
     expect_equal
     (
-      casst::delete_().cols("col1", "col2", "col3").from("turb").
+      casst::delete_("col1", "col2", "col3").from("turb").
         if_exists().
         to_string(),
 

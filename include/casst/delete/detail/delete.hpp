@@ -74,17 +74,11 @@ namespace casst
           del()
           { oss_ << "DELETE "; }
 
-          /* TODO: This should just be in the ctor. */
-          auto& cols()
-          { return *this; }
-
           template <typename... Args>
-          auto& cols(Args &&...args)
+          del(Args &&...args)
           {
-            int const _[]{ (oss_ << args << ", ", 0)... };
-            static_cast<void>(_);
-            oss_.seekp(-2, std::ios_base::end); oss_ << " ";
-            return *this;
+            oss_ << "DELETE ";
+            cols(std::forward<Args>(args)...);
           }
 
           auto from(std::string const &table)
@@ -94,6 +88,17 @@ namespace casst
           }
 
         private:
+          void cols()
+          { }
+
+          template <typename... Args>
+          void cols(Args &&...args)
+          {
+            int const _[]{ (oss_ << args << ", ", 0)... };
+            static_cast<void>(_);
+            oss_.seekp(-2, std::ios_base::end); oss_ << " ";
+          }
+
           ostringstream oss_;
       };
     }

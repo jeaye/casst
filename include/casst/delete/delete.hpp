@@ -4,6 +4,10 @@
 
 namespace casst
 {
-  inline auto delete_()
-  { return detail::delete_::del<detail::delete_::steps::base>{}; }
+  template <typename... Args>
+  auto delete_(Args &&...args)
+  {
+    return detail::delete_::del<detail::delete_::steps::base>
+    { std::forward<Args>(args)... };
+  }
 }
