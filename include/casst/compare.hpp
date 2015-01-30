@@ -33,6 +33,8 @@ namespace casst
     { return " CONTAINS "; }
     char constexpr const* contains_key()
     { return " CONTAINS KEY "; }
+    char constexpr const* and_()
+    { return " AND "; }
 
     template <sigil Sigil, typename LHS, typename RHS>
     struct compare
@@ -89,6 +91,22 @@ namespace casst
   auto contains_key(LHS const &lhs, RHS const &rhs)
   { return detail::compare<&detail::contains_key, LHS, RHS>{ lhs, rhs }; }
 
+  namespace detail
+  {
+    template <typename LHS>
+    auto make_and(LHS &&lhs)
+    { return std::forward<LHS>(lhs); }
+
+    template <typename LHS, typename RHS, typename... Args>
+    auto make_and(LHS &&lhs, RHS &&rhs, Args &&...args)
+    {
+      return make_and(compare<&and_, LHS, RHS>{ lhs, rhs },
+                      std::forward<Args>(args)...);
+    }
+  }
   inline std::string and_()
   { return "AND"; }
+  template <typename... Args>
+  auto and_(Args &&...args)
+  { return detail::make_and(std::forward<Args>(args)...); }
 }

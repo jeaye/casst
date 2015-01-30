@@ -151,9 +151,11 @@ namespace jest
       casst::select_count("foo", "bar").from("kitty").
         where
         (
-          casst::equal("age", 42),
-          casst::and_(),
-          casst::not_equal("alive", false)
+          casst::and_
+          (
+            casst::equal("age", 42),
+            casst::not_equal("alive", false)
+          )
         ).to_string(),
 
       "SELECT COUNT ( * ) foo, bar FROM kitty WHERE age = 42 "

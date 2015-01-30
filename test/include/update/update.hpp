@@ -132,13 +132,17 @@ namespace jest
         set(casst::equal("alive", true)).
         if_
         (
-          casst::equal("alive", false),
-          casst::and_(),
-          casst::not_equal("name", "simba")
+          casst::and_
+          (
+            casst::equal("alive", false),
+            casst::not_equal("name", "simba"),
+            casst::greater("strength", 180)
+          )
         ).
         to_string(),
 
       "UPDATE foo SET alive = true IF alive = false AND name <> 'simba' "
+      "AND strength > 180 "
     );
   }
 
