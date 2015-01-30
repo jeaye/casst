@@ -7,7 +7,7 @@ casst is a sane (header only) C++14 CQL string builder. Building complex queries
   * Absolutely no macros needed nor used
   * Extensive test suite (using [jest](https://github.com/jeaye/jest), a "sane and minimal C++14 unit test framework")
 
-casst is currently pre-alpha, so the interface is not yet solidified and not all features have been implemented. Still, we're using it in our [XMPP server](http://www.eyeball.com/products/xmpp-server).
+NOTE: casst is currently pre-alpha, so the interface is not yet solidified and not all features have been implemented. Still, we're using it in our [XMPP server](http://www.eyeball.com/products/xmpp-server).
 
 # Examples
 ## Select
