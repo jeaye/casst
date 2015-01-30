@@ -16,7 +16,7 @@ casst::select("album", "tags").from("playlists").
   where(casst::contains("tags", "blues")).
   to_string();
 
-// gives: "SELECT album, tags FROM playlists WHERE tags CONTAINS 'blues' "
+// yields: SELECT album, tags FROM playlists WHERE tags CONTAINS 'blues'
 ```
 ## Update
 ```cpp
@@ -25,7 +25,7 @@ casst::update("foo").
   where(casst::row("name").in("user1", "user2")).
   to_string();
 
-// gives: "UPDATE foo SET alive = true WHERE name IN ( 'user1', 'user2' ) "
+// yields: UPDATE foo SET alive = true WHERE name IN ( 'user1', 'user2' )
 ```
 ## Delete
 ```cpp
@@ -44,9 +44,9 @@ casst::delete_().from("people").
     )
   ).to_string();
 
-// gives: 
-// "DELETE FROM people WHERE meow IN ( 'kitty', 'cat' ) "
-// "IF ( name, age ) = ( 'meow', 18 ) "
+// yields: 
+// DELETE FROM people WHERE meow IN ( 'kitty', 'cat' )
+// IF ( name, age ) = ( 'meow', 18 )
 ```
 
 # License
