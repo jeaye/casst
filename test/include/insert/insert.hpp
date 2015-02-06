@@ -22,10 +22,10 @@ namespace jest
     expect_equal
     (
       casst::insert("users", casst::columns("id", "todo")).
-        values(42, "meet the president").
+        values(casst::binding(), "meet the president").
         to_string(),
 
-      "INSERT INTO users ( id, todo ) VALUES ( 42, 'meet the president' ) "
+      "INSERT INTO users ( id, todo ) VALUES ( ?, 'meet the president' ) "
     );
   }
 

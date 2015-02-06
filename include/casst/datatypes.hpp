@@ -72,8 +72,8 @@ namespace casst
   inline data_type_t varint(std::string const &name)
   { return { name, "varint" }; }
 
-  inline char constexpr const* binding()
-  { return "?"; }
+  inline detail::column binding()
+  { return column("?"); }
   inline detail::column null()
   { return column("null"); }
 }
