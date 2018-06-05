@@ -7,8 +7,6 @@ casst is a sane (header only) C++14 CQL string builder. Building complex queries
   * Absolutely no macros needed nor used
   * Extensive test suite (using [jest](https://github.com/jeaye/jest), a "sane and minimal C++14 unit test framework")
 
-NOTE: casst is currently pre-alpha, so the interface is not yet solidified and not all features have been implemented. Still, we're using it in our [XMPP server](http://www.eyeball.com/products/xmpp-server).
-
 # examples
 ## select
 ```cpp
@@ -50,7 +48,7 @@ casst::delete_().from("people").
 ```
 
 # documentation
-There is quite a bit of documentation here on our [wiki](https://github.com/EyeballNetworks/casst/wiki). Beyond that, consider taking a look at the [tests](https://github.com/EyeballNetworks/casst/tree/master/test/include).
+There is quite a bit of documentation here on our [wiki](https://github.com/jeaye/casst/wiki). Beyond that, consider taking a look at the [tests](https://github.com/jeaye/casst/tree/master/test/include).
 
 # license
 casst is under the MIT open-source license.  

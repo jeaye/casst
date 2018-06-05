@@ -1,8 +1,4 @@
 #!/bin/bash
-#
-# Copyright © 2015 Eyeball Networks
-# See licensing in LICENSE file, or at:
-#   http://www.opensource.org/licenses/MIT
 
 # XXX: Do not call this script directly: use `make install`
 set -o errexit
